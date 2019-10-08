@@ -6,9 +6,9 @@ using XboxCtrlrInput;
 /*
  * File Name: PlayerJump.cs
  * Author: Connor Li
- * Description: Script for the player's jump
+ * Description: Manages the player's jump
  * Creation Date: 07/10/2019
- * Last Modified: 07/10/2019
+ * Last Modified: 08/10/2019
  */
 
 public class PlayerJump : MonoBehaviour
@@ -37,15 +37,14 @@ public class PlayerJump : MonoBehaviour
 	 */
     void Update()
     {
-
 		//If the jump key or button goes down jump
-		if (Input.GetButtonDown("Jump") && m_jumpTimer == 0.0f && !m_inAir)
+		if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space)) && m_jumpTimer == 0.0f && !m_inAir)
 		{
 			m_rb2d.AddForce(m_jumpForcev2, ForceMode2D.Impulse);
 			m_jumpTimer += Time.deltaTime;
 		}
 		//If the jump key or button is let go set timer to max
-		else if (Input.GetButtonUp("Jump"))
+		else if ((Input.GetButtonUp("Jump") || Input.GetKeyUp(KeyCode.Space)))
 		{
 			//Checks if the player is in the air
 			if (m_inAir)
@@ -59,7 +58,7 @@ public class PlayerJump : MonoBehaviour
 			}
 		}
 		//If jump key or button is held hold velocity and increase timer
-		else if (Input.GetButton("Jump") && m_jumpTimer < m_maxJumpTime)
+		else if ((Input.GetButton("Jump") || Input.GetKey(KeyCode.Space)) && m_jumpTimer < m_maxJumpTime)
 		{
 			//Checks if player is in the air
 			if (m_inAir)
@@ -78,6 +77,7 @@ public class PlayerJump : MonoBehaviour
 	 */
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
+		//Checks if the collision is with a Floor
 		if (collision.gameObject.tag == "Platform")
 		{
 			m_inAir = false;
@@ -91,6 +91,7 @@ public class PlayerJump : MonoBehaviour
 	 */
 	private void OnCollisionExit2D(Collision2D collision)
 	{
+		//Checks if the collision is with a Floor
 		if (collision.gameObject.tag == "Platform")
 		{
 			m_inAir = true;
