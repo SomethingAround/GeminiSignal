@@ -8,16 +8,18 @@ using XboxCtrlrInput;
  * Author: Connor Li
  * Description: Manages the player's jump
  * Creation Date: 07/10/2019
- * Last Modified: 08/10/2019
+ * Last Modified: 09/10/2019
  */
 
 public class PlayerJump : MonoBehaviour
 {
-	float m_jumpTimer = 0.0f;
 	public float m_jumpForce = 5.0f;
 	public float m_maxJumpTime = 0.1f;
 	public float m_jumpAcceleration = 0.5f;
-	bool m_inAir = false;
+	float m_jumpTimer = 0.0f;
+
+	[HideInInspector]
+	public bool m_inAir = false;
 
 	Vector2 m_jumpVelocity = new Vector2(0.0f, 0.0f);
 	Vector2 m_jumpForcev2 = Vector2.zero;
