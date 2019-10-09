@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /*
  *  File Name: Pause Menu
  *  Author: Steven Pham
- *  Description: displays the text saying pause on the screen than either continue the game or go to main menu
+ *  Description: displays a pause menu that the player either continue the game or go to main menu or quit the game
  *  Creation Date: 8/8/2019
- *  Last Modified : 8/8/2019
+ *  Last Modified : 9/8/2019
 */
 
 public class PauseMenu : MonoBehaviour
@@ -17,7 +18,9 @@ public class PauseMenu : MonoBehaviour
     */
     void Start()
     {
-        
+        GameObject.Find("ContinueButton").GetComponentInChildren<Text>().text = "Continue Button";
+        GameObject.Find("MainMenuButton").GetComponentInChildren<Text>().text = "Main Menu Button";
+        GameObject.Find("QuitButton").GetComponentInChildren<Text>().text = "Quit Button";
     }
 
     /*
@@ -25,7 +28,22 @@ public class PauseMenu : MonoBehaviour
     */
     void Update()
     {
+        
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+        Debug.Log("Exiting game");
+    }
+
+    public void Continue()
+    {
 
     }
-    
+
+    public void MainMenu()
+    {
+        //Application.LoadLevel("Name of Main Menu");
+    }
 }

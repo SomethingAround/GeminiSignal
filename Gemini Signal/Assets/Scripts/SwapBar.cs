@@ -30,7 +30,7 @@ public class SwapBar : MonoBehaviour
     */
     void Update()
     {
-        m_playerBlue = m_player.GetComponent<PlayerSwap>().m_isBlue;
+        //m_playerBlue = m_player.GetComponent<PlayerSwap>().m_isBlue;
         if (m_playerBlue && m_blueLevel > 0.0f)
         {
             m_blueLevel -= m_rate * Time.deltaTime;
@@ -42,8 +42,8 @@ public class SwapBar : MonoBehaviour
 
         if (m_blueLevel <= 0.0f && m_playerBlue || m_blueLevel >= 4.0f && !m_playerBlue)
         {
-            m_player.GetComponent<PlayerSwap>().m_isblue = !m_player.GetComponent<PlayerSwap>().m_isBlue;
-            m_player.GetComponent<PlayerSwap>().m_cloakTime = 0.0f;
+            //m_player.GetComponent<PlayerSwap>().m_isblue = !m_player.GetComponent<PlayerSwap>().m_isBlue;
+            //m_player.GetComponent<PlayerSwap>().m_cloakTime = 0.0f;
         }
 
     }

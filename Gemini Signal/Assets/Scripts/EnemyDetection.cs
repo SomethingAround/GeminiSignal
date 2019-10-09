@@ -7,7 +7,7 @@ using UnityEngine;
  * Author: Steven Pham
  * Description: Has the enemy detect the player if they are in the opposite Dimension
  * Creation Date: 7/10/2019
- * Last Modified: 8/10/2019
+ * Last Modified: 9/10/2019
  */
 
 public class EnemyDetection : MonoBehaviour
@@ -19,10 +19,10 @@ public class EnemyDetection : MonoBehaviour
      */
     private void OnTriggerStay2D(Collider2D a_collision)
     {
-        if ((a_collision.gameObject.tag == "Fov" && a_collision.gameObject.GetComponentInParent<PlayerMove>() != null && a_collision.gameObject.GetComponentInParent<PlayerMove>().m_isBlue != m_isBlue) ||
-            (a_collision.gameObject.GetComponent<PlayerMove>() != null && a_collision.gameObject.GetComponentInParent<PlayerSwap>().m_isBlue != m_isBlue))
-        {
-            gameObject.GetComponent<PlayerMove>()->ReturnToStart();
-        }
+        //if ((a_collision.gameObject.tag == "Fov" && a_collision.gameObject.GetComponentInParent<PlayerMovement>() != null && a_collision.gameObject.GetComponentInParent<//PlayerDimensionSwap>().m_isBlue != m_isBlue) ||
+            //(a_collision.gameObject.GetComponent<PlayerMovement>() != null && a_collision.gameObject.GetComponentInParent<//PlayerDimensionSwap>().m_isBlue != m_isBlue))
+        //{
+            //gameObject.GetComponent<PlayerMovement>()->ReturnToStart();
+        //}
     }
 }
