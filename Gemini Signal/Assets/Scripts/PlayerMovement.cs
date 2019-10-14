@@ -130,6 +130,5 @@ public class PlayerMovement : MonoBehaviour
 			m_rb2d.velocity = m_wallHit;
 		}
 		Debug.DrawRay(gameObject.transform.position + m_rayPosition, gameObject.transform.up, Color.magenta);
-		print(m_rb2d.velocity);
 	}
 }

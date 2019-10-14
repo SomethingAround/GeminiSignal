@@ -43,16 +43,18 @@ public class PlayerSwap : MonoBehaviour
 
 			if(m_isPhased)
 			{
-				m_shader.SetFloat("Cloak_per", m_phaseTimer);
+				m_shader.SetFloat("_Cloak_per", m_downPhase - m_phaseTimer);
 			}
 			else
 			{
-				m_shader.SetFloat("Cloak_per", m_downPhase - m_phaseTimer);
+				m_shader.SetFloat("_Cloak_per", m_phaseTimer);
 			}
 
-			if(m_phaseTimer >= m_timeTillPhased || m_phaseTimer <= m_timeTillPhased)
+			if(m_phaseTimer >= m_timeTillPhased)
 			{
 				m_isPhasing = false;
+				m_isPhased = !m_isPhased;
+				m_phaseTimer = 0.0f;
 			}
 		}
     }
