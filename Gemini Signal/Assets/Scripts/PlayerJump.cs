@@ -8,7 +8,7 @@ using XboxCtrlrInput;
  * Author: Connor Li
  * Description: Manages the player's jump
  * Creation Date: 07/10/2019
- * Last Modified: 09/10/2019
+ * Last Modified: 14/10/2019
  */
 
 public class PlayerJump : MonoBehaviour
@@ -20,15 +20,18 @@ public class PlayerJump : MonoBehaviour
 
 	[HideInInspector]
 	public bool m_inAir = false;
+	bool m_isOnGround = true;
 
 	Vector2 m_jumpVelocity = new Vector2(0.0f, 0.0f);
 	Vector2 m_jumpForcev2 = Vector2.zero;
 
 	Rigidbody2D m_rb2d;
-    /* 
+
+	RaycastHit2D m_rayH2D;
+	/* 
 	 * Start is called before the first frame update
 	 */
-    void Start()
+	void Start()
     {
 		m_rb2d = gameObject.GetComponent<Rigidbody2D>();
 		m_jumpForcev2 = new Vector2(0.0f, m_jumpForce);
@@ -80,12 +83,16 @@ public class PlayerJump : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		//Checks if the collision is with a Floor
-		if (collision.gameObject.tag == "Platform")
+		if (!m_isOnGround)
 		{
-			m_inAir = false;
-			m_rb2d.drag = 6;
-			m_jumpTimer = 0.0f;
+			if (collision.gameObject.tag == "Platform")
+			{
+				m_inAir = false;
+				m_rb2d.drag = 6;
+				m_jumpTimer = 0.0f;
+			}
 		}
+		m_isOnGround = true;
 	}
 
 	/*
@@ -93,11 +100,15 @@ public class PlayerJump : MonoBehaviour
 	 */
 	private void OnCollisionExit2D(Collision2D collision)
 	{
-		//Checks if the collision is with a Floor
-		if (collision.gameObject.tag == "Platform")
+		if (m_isOnGround)
 		{
-			m_inAir = true;
-			m_rb2d.drag = 0;
+			//Checks if the collision is with a Floor
+			if (collision.gameObject.tag == "Platform")
+			{
+				m_inAir = true;
+				m_rb2d.drag = 0;
+			}
 		}
+		m_isOnGround = false;
 	}
 }
