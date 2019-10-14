@@ -8,7 +8,7 @@ using XboxCtrlrInput;
  * Author: Connor Li
  * Description: Manages the player's movement
  * Creation Date: 08/10/2019
- * Last Modified: 09/10/2019
+ * Last Modified: 14/10/2019
  */
 
 public class PlayerMovement : MonoBehaviour
@@ -53,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
 		m_rb2d.interpolation = RigidbodyInterpolation2D.Interpolate;
 
 		m_playJump = gameObject.GetComponent<PlayerJump>();
+
+		m_rb2d.drag = 6.0f;
 	}
 
 	/*
