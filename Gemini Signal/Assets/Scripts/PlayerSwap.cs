@@ -13,10 +13,12 @@ using UnityEngine;
 public class PlayerSwap : MonoBehaviour
 {
 	public float m_timeTillPhased = 1.0f;
-	float m_phaseTimer = 0.0f;
+	[HideInInspector]
+	public float m_phaseTimer = 0.0f;
 	float m_downPhase = 0.9f;
 
-	bool m_isPhased = false;
+	[HideInInspector]
+	public bool m_isPhased = false;
 	bool m_isPhasing = false;
 
 	Material m_shader;
