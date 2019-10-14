@@ -19,10 +19,10 @@ public class EnemyDetection : MonoBehaviour
      */
     private void OnTriggerStay2D(Collider2D a_collision)
     {
-        //if ((a_collision.gameObject.tag == "Fov" && a_collision.gameObject.GetComponentInParent<PlayerMovement>() != null && a_collision.gameObject.GetComponentInParent<//PlayerDimensionSwap>().m_isBlue != m_isBlue) ||
-            //(a_collision.gameObject.GetComponent<PlayerMovement>() != null && a_collision.gameObject.GetComponentInParent<//PlayerDimensionSwap>().m_isBlue != m_isBlue))
+        //if ((a_collision.gameObject.tag == "Fov" && a_collision.gameObject.GetComponentInParent<PlayerMovement>() != null && a_collision.gameObject.GetComponentInParent <PlayerDimensionSwap>().m_isBlue != m_isBlue) ||
+        //(a_collision.gameObject.GetComponent<PlayerMovement>() != null && a_collision.gameObject.GetComponentInParent <PlayerDimensionSwap>().m_isBlue != m_isBlue))
         //{
-            //gameObject.GetComponent<PlayerMovement>()->ReturnToStart();
+        //gameObject.GetComponent<PlayerMovement>()->ReturnToStart();
         //}
     }
 }

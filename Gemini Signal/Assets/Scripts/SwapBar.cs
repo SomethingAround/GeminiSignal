@@ -7,7 +7,7 @@ using UnityEngine;
  * Author: Steven Pham
  * Description: to display the time they have till they are forced to switch
  * Creation Date: 8/10/2019
- * Last Modified: 8/10/2019
+ * Last Modified: 14/10/2019
  */
 
 public class SwapBar : MonoBehaviour
@@ -42,8 +42,8 @@ public class SwapBar : MonoBehaviour
 
         if (m_blueLevel <= 0.0f && m_playerBlue || m_blueLevel >= 4.0f && !m_playerBlue)
         {
-            //m_player.GetComponent<PlayerSwap>().m_isblue = !m_player.GetComponent<PlayerSwap>().m_isBlue;
-            //m_player.GetComponent<PlayerSwap>().m_cloakTime = 0.0f;
+            m_player.GetComponent<PlayerSwap>().m_isPhased = !m_player.GetComponent<PlayerSwap>().m_isPhased;
+            m_player.GetComponent<PlayerSwap>().m_phaseTimer = 0.0f;
         }
 
     }

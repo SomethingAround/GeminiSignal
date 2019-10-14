@@ -18,9 +18,6 @@ public class PauseMenu : MonoBehaviour
     */
     void Start()
     {
-        GameObject.Find("ContinueButton").GetComponentInChildren<Text>().text = "Continue Button";
-        GameObject.Find("MainMenuButton").GetComponentInChildren<Text>().text = "Main Menu Button";
-        GameObject.Find("QuitButton").GetComponentInChildren<Text>().text = "Quit Button";
     }
 
     /*
