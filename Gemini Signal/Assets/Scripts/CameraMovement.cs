@@ -35,7 +35,7 @@ public class CameraMovement : MonoBehaviour
     void Start()
     {
 		// store the player
-		m_player = GameObject.Find("Player");
+		m_player = GameObject.FindGameObjectWithTag("Player");
 		m_playerAlive = true;
 
 		// determine where the camera should move to when the player is respawning
