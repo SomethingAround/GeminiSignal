@@ -8,7 +8,7 @@ using XboxCtrlrInput;
  * Author: Connor Li
  * Description: Manages the player's movement
  * Creation Date: 08/10/2019
- * Last Modified: 14/10/2019
+ * Last Modified: 15/10/2019
  */
 
 public class PlayerMovement : MonoBehaviour
@@ -24,7 +24,8 @@ public class PlayerMovement : MonoBehaviour
 	float m_direction = 0.0f;
 	float m_yRayOffset = 0.03f;
 
-	Vector2 m_startPosition = Vector2.zero;
+	[HideInInspector]
+	public Vector2 m_startPosition = Vector2.zero;
 	Vector2 m_moveVelocity = Vector2.zero;
 	Vector2 m_maxVelocity = Vector2.zero;
 	Vector2 m_wallHit = Vector2.zero;
@@ -35,7 +36,9 @@ public class PlayerMovement : MonoBehaviour
 
 	PlayerJump m_playJump;
 
-	RaycastHit2D m_rayRH2D;
+	CameraMovement m_cameraMovement;
+
+	//RaycastHit2D m_rayRH2D;
 
 	/* 
 	 * Start is called before the first frame update
@@ -54,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
 
 		m_playJump = gameObject.GetComponent<PlayerJump>();
 
-		m_rb2d.drag = 6.0f;
+		m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
 	}
 
 	/*
@@ -62,73 +65,76 @@ public class PlayerMovement : MonoBehaviour
 	 */
 	void Update()
     {
-		m_direction = Input.GetAxis("Horizontal");
-		//Sets m_translation to - or + move speed
-		m_translation = m_direction * m_currentSpeed;
-		//Sets moveVelocities x to m_translation
-		m_moveVelocity.x = m_translation;
-		//Sets ray position to the left or right side of player
-		if (m_moveVelocity.x > 0)
+		if (m_cameraMovement.m_playerAlive)
 		{
-			m_rayPosition.x = m_minWallDistance;
-		}
-		else if (m_moveVelocity.x < 0)
-		{
-			m_rayPosition.x = -m_minWallDistance;
-		}
-		//Increases velocity by the 
-		m_rb2d.velocity += m_moveVelocity;
-
-		//If jump is pressed set max aerial speed to current x velocity
-		if(Input.GetButtonDown("Jump"))
-		{
-			m_aerialMaxSpeed = m_rb2d.velocity.x;
-		}
-
-		//Checks if x velocity is greater than max speed in either direction
-		if (m_rb2d.velocity.x > m_maxSpeed || m_rb2d.velocity.x < -m_maxSpeed)
-		{
-			m_maxVelocity.Set(m_direction * m_maxSpeed, m_rb2d.velocity.y);
-			m_rb2d.velocity = m_maxVelocity;
-		}
-
-		//Checks if the play is in the air
-		if (m_playJump.m_inAir)
-		{
-			m_currentSpeed = m_airSpeed;
-			//Checks if the player is moving right 
-			if (m_aerialMaxSpeed >= 0)
+			m_direction = Input.GetAxis("Horizontal");
+			//Sets m_translation to - or + move speed
+			m_translation = m_direction * m_currentSpeed;
+			//Sets moveVelocities x to m_translation
+			m_moveVelocity.x = m_translation;
+			//Sets ray position to the left or right side of player
+			if (m_moveVelocity.x > 0)
 			{
-				//Checks if x velocity is greater than max speed
-				if (m_rb2d.velocity.x > m_aerialMaxSpeed)
+				m_rayPosition.x = m_minWallDistance;
+			}
+			else if (m_moveVelocity.x < 0)
+			{
+				m_rayPosition.x = -m_minWallDistance;
+			}
+			//Increases velocity by the 
+			m_rb2d.velocity += m_moveVelocity;
+
+			//If jump is pressed set max aerial speed to current x velocity
+			if (Input.GetButtonDown("Jump"))
+			{
+				m_aerialMaxSpeed = m_rb2d.velocity.x;
+			}
+
+			//Checks if x velocity is greater than max speed in either direction
+			if (m_rb2d.velocity.x > m_maxSpeed || m_rb2d.velocity.x < -m_maxSpeed)
+			{
+				m_maxVelocity.Set(m_direction * m_maxSpeed, m_rb2d.velocity.y);
+				m_rb2d.velocity = m_maxVelocity;
+			}
+
+			//Checks if the play is in the air
+			if (m_playJump.m_inAir)
+			{
+				m_currentSpeed = m_airSpeed;
+				//Checks if the player is moving right 
+				if (m_aerialMaxSpeed >= 0)
 				{
-					m_maxVelocity.Set(m_aerialMaxSpeed, m_rb2d.velocity.y);
-					m_rb2d.velocity = m_maxVelocity;
+					//Checks if x velocity is greater than max speed
+					if (m_rb2d.velocity.x > m_aerialMaxSpeed)
+					{
+						m_maxVelocity.Set(m_aerialMaxSpeed, m_rb2d.velocity.y);
+						m_rb2d.velocity = m_maxVelocity;
+					}
+				}
+				//Checks if the player is moving left 
+				else if (m_aerialMaxSpeed <= 0)
+				{
+					//Checks if x velocity is less than max speed
+					if (m_rb2d.velocity.x < m_aerialMaxSpeed)
+					{
+						m_maxVelocity.Set(m_aerialMaxSpeed, m_rb2d.velocity.y);
+						m_rb2d.velocity = m_maxVelocity;
+					}
 				}
 			}
-			//Checks if the player is moving left 
-			else if (m_aerialMaxSpeed <= 0)
+			//Resets current speed back to ground speed
+			else
 			{
-				//Checks if x velocity is less than max speed
-				if (m_rb2d.velocity.x < m_aerialMaxSpeed) 
-				{
-					m_maxVelocity.Set(m_aerialMaxSpeed, m_rb2d.velocity.y);
-					m_rb2d.velocity = m_maxVelocity;
-				}
+				m_currentSpeed = m_groundSpeed;
 			}
-		}
-		//Resets current speed back to ground speed
-		else
-		{
-			m_currentSpeed = m_groundSpeed;
-		}
 
-		m_rayRH2D = Physics2D.Raycast(gameObject.transform.position + m_rayPosition, gameObject.transform.up, gameObject.transform.localScale.y - (m_yRayOffset * 2));
-		if (m_rayRH2D.collider != null && m_rayRH2D.collider.gameObject.tag == "Platform")
-		{
-			m_wallHit.y = m_rb2d.velocity.y;
-			m_rb2d.velocity = m_wallHit;
+			//m_rayRH2D = Physics2D.Raycast(gameObject.transform.position + m_rayPosition, gameObject.transform.up, gameObject.transform.localScale.y - (m_yRayOffset * 2));
+			//if (m_rayRH2D.collider != null && m_rayRH2D.collider.gameObject.tag == "Platform")
+			//{
+			//	m_wallHit.y = m_rb2d.velocity.y;
+			//	m_rb2d.velocity = m_wallHit;
+			//}
+			//Debug.DrawRay(gameObject.transform.position + m_rayPosition, gameObject.transform.up, Color.magenta);
 		}
-		Debug.DrawRay(gameObject.transform.position + m_rayPosition, gameObject.transform.up, Color.magenta);
 	}
 }
