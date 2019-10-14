@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages how the camera moves, based on the position of the player
  * Creation Date: 07/10/2019
- * Last Modified: 08/10/2019
+ * Last Modified: 14/10/2019
  */
 
 using System.Collections;
@@ -28,6 +28,7 @@ public class CameraMovement : MonoBehaviour
 	public bool m_playerAlive;
 	public float m_moveDuration;
 	public float m_yOffsetFromPlayer;
+	public float m_zOffsetFromPlayer;
 
     /*
 	 * Brief: Initialisation for the camera
@@ -40,7 +41,7 @@ public class CameraMovement : MonoBehaviour
 
 		// determine where the camera should move to when the player is respawning
 		m_playerPosition = m_player.transform.position;
-		m_cameraStartPosition.Set(m_playerPosition.x,m_playerPosition.y + m_yOffsetFromPlayer,gameObject.transform.position.z);
+		m_cameraStartPosition.Set(m_playerPosition.x,m_playerPosition.y + m_yOffsetFromPlayer,m_playerPosition.z - m_zOffsetFromPlayer);
 		
 		// set the camera's position
 		gameObject.transform.position = m_cameraStartPosition;
