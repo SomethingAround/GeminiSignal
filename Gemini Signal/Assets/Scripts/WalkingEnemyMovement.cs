@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of walking enemies
  * Creation Date: 08/10/2019
- * Last Modified: 09/10/2019
+ * Last Modified: 14/10/2019
  */
 
 using System.Collections;
@@ -13,7 +13,7 @@ using UnityEngine;
 public class WalkingEnemyMovement : MonoBehaviour
 {
 	float m_startXPosition;
-	public float m_targetXPosition;
+	float m_targetXPosition;
 	
 	float m_moveThreshold = 0.1f;
 	float m_rotationThreshold = 0.05f;
@@ -37,8 +37,11 @@ public class WalkingEnemyMovement : MonoBehaviour
 		m_startXPosition = gameObject.transform.position.x;
 		m_targetXPosition = m_endXPosition;
 
-		// store the field of view so it can be hidden
-		m_fieldOfView = gameObject.transform.GetChild(0);
+		// if the enemy has a child object, store it as the field of view so it can be hidden when turning
+		if (gameObject.transform.childCount >= 0)
+		{
+			m_fieldOfView = gameObject.transform.GetChild(0);
+		}
     }
 
 	/*
