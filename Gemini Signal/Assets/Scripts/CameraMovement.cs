@@ -17,7 +17,8 @@ public class CameraMovement : MonoBehaviour
 
 	Vector3 m_cameraStartPosition;
 	Vector3 m_cameraPosition;
-	
+	float m_distanceThreshold = 0.5f;
+
 	Vector3 m_newPosition;
 	Vector3 m_velocity = Vector3.zero;
 
@@ -84,6 +85,11 @@ public class CameraMovement : MonoBehaviour
 				m_newPosition = Vector3.SmoothDamp(gameObject.transform.position, m_cameraStartPosition, ref m_velocity, m_moveDuration);
 				m_cameraPosition.Set(m_newPosition.x, m_newPosition.y, gameObject.transform.position.z);
 				gameObject.transform.position = m_cameraPosition;
+
+				if (Mathf.Abs(Vector3.SqrMagnitude(m_cameraPosition - m_cameraStartPosition)) < m_distanceThreshold)
+				{
+					m_playerAlive = true;
+				}
 			}
 		}
     }
