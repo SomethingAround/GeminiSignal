@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages how the camera moves, based on the position of the player
  * Creation Date: 07/10/2019
- * Last Modified: 14/10/2019
+ * Last Modified: 15/10/2019
  */
 
 using System.Collections;
@@ -47,11 +47,11 @@ public class CameraMovement : MonoBehaviour
 		gameObject.transform.position = m_cameraStartPosition;
     }
 
-    /*
+	/*
 	 * Brief: sets the camera's position each frame
 	 */
-    void Update()
-    {
+	void Update()
+	{
 		// if the player is alive, move towards the player
 		if (m_playerAlive)
 		{
@@ -77,6 +77,9 @@ public class CameraMovement : MonoBehaviour
 			// if the camera has waited enough, move towards the start position
 			if (m_playerDeathWaitTimer >= m_playerDeathWaitTime)
 			{
+				// activate the player
+				m_player.SetActive(true);
+
 				// set the camera's x and y position so it moves towards the start position
 				m_newPosition = Vector3.SmoothDamp(gameObject.transform.position, m_cameraStartPosition, ref m_velocity, m_moveDuration);
 				m_cameraPosition.Set(m_newPosition.x, m_newPosition.y, gameObject.transform.position.z);

@@ -3,7 +3,8 @@
  * Author: Michael Sweetman
  * Description: manages the movement of flying enemies
  * Creation Date: 07/10/2019
- * Last Modified: 14/10/2019
+ * Last Modified: 15/10/2019
+ * Note: Known Bug - turns upside down in non rectangular paths
  */
 
 using System.Collections;
@@ -12,12 +13,20 @@ using UnityEngine;
 
 public class FlyingEnemyMovement : MonoBehaviour
 {
+	/*
+	 * Brief: structure for the waypoints of the flying enemy
+	 */
 	[System.Serializable]
 	public struct Waypoint
 	{ 
 		public Vector3 m_position;
 		public bool m_swapYRotation;
 
+		/*
+		 * Brief: Waypoint constructor
+		 * Parameter: a_position: the coordinates of the waypoint
+		 * Parameter: a_swapYRotation : determines whether the enemy will have to turn around for this waypoint
+		 */
 		public Waypoint(Vector3 a_position, bool a_swapYRotation)
 		{
 			m_position = a_position;
@@ -82,7 +91,7 @@ public class FlyingEnemyMovement : MonoBehaviour
 			{
 				m_targetDirection = m_waypoints[m_targetIndex].m_position - transform.position;
 			}
-			/// if the enemy is facing the wrong direction, set the target direction to be left or right, depending on where the target is relative to the enemy horizontally
+			// if the enemy is facing the wrong direction, set the target direction to be left or right, facing away from the target
 			else
 			{
 				m_targetDirection = (m_waypoints[m_targetIndex].m_position.x >= gameObject.transform.position.x) ? m_faceLeft : m_faceRight;
@@ -92,46 +101,54 @@ public class FlyingEnemyMovement : MonoBehaviour
 			m_targetDirection.Normalize();
 		}
 		
-		/// if the enemy has turned enough to reach its target direction, move towards the target
+		// if the enemy has turned enough to reach its target direction, determine the next target direction or move towards the target
 		if (Vector3.Dot(gameObject.transform.right.normalized, m_targetDirection) > m_rotationThreshold)
 		{
 			gameObject.transform.right = m_targetDirection;
 
-			// if the y rotation needed to be swapped
+			// if the y rotation needed to be swapped and the maneuver is not yet completed, determine the next direction to reach for the maneuver
 			if (m_waypoints[m_targetIndex].m_swapYRotation && !m_maneuverCompleted)
 			{
+				// if the enemy was previously facing opposite, rotate towards the target
 				if (m_facingOpposite)
 				{
+					// set the target direction to be towards the target
 					m_targetDirection = m_waypoints[m_targetIndex].m_position - transform.position;
 					m_targetDirection.Normalize();
 					m_maneuverCompleted = true;
+
+					// show the field of view
 					m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
 					m_fieldOfView.GetComponent<Collider2D>().enabled = true;
 				}
+				// if the enemy is starting the maneuver, rotate to be facing left or right, towards the target
 				else
 				{
+					// set the target direction to be left or right, towards the target
 					m_targetDirection = (m_waypoints[m_targetIndex].m_position.x >= gameObject.transform.position.x) ? m_faceRight : m_faceLeft;
 					m_facingOpposite = true;
+
+					// hide the field of view
 					m_fieldOfView.GetComponent<MeshRenderer>().enabled = false;
 					m_fieldOfView.GetComponent<Collider2D>().enabled = false;
 				}
 			}
+			// if the rotation didn't need to be swapped or if the maneuver is completed
 			else
 			{
+				// move towards the target
 				gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, m_waypoints[m_targetIndex].m_position, m_moveSpeed * Time.deltaTime);
 			}
 		}
 		// if the enemy has not yet reached its target direction, rotate towards the target
 		else
 		{
-			if (!m_waypoints[m_targetIndex].m_swapYRotation || m_maneuverCompleted)
-			{
-				gameObject.transform.right = Vector3.RotateTowards(gameObject.transform.right, m_targetDirection, m_rotationSpeed * Time.deltaTime, 0.0f);
-			}
-			else if (m_facingOpposite)
+			// if the enemy is facing in the opposite direction, rotate around the y axis
+			if (m_facingOpposite && !m_maneuverCompleted)
 			{
 				gameObject.transform.Rotate(gameObject.transform.up, ((m_waypoints[m_targetIndex].m_position.x >= gameObject.transform.position.x) ? -1 : 1) * m_rotationSpeed);
 			}
+			// otherwise, rotate around the z axis
 			else
 			{
 				gameObject.transform.right = Vector3.RotateTowards(gameObject.transform.right, m_targetDirection, m_rotationSpeed * Time.deltaTime, 0.0f);
