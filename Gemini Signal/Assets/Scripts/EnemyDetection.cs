@@ -12,17 +12,27 @@ using UnityEngine;
 
 public class EnemyDetection : MonoBehaviour
 {
+    public bool m_isPhased;
+    CameraMovement m_cameraMovement;
+    GameObject m_player;
+    private void Start()
+    {
+        m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
+        m_player = GameObject.FindGameObjectWithTag("Player");
+        m_cameraMovement.m_playerAlive = false;
+    }
+
     /*
      * Breif: will detect if a collision has accured
      * Parameter: a_collision: to determine the collision that will be encountered
      * 
      */
-    private void OnTriggerStay2D(Collider2D a_collision)
+    private void OnTriggerEnter2D(Collider2D a_collision)
     {
-        //if ((a_collision.gameObject.tag == "Fov" && a_collision.gameObject.GetComponentInParent<PlayerMovement>() != null && a_collision.gameObject.GetComponentInParent <PlayerDimensionSwap>().m_isBlue != m_isBlue) ||
-        //(a_collision.gameObject.GetComponent<PlayerMovement>() != null && a_collision.gameObject.GetComponentInParent <PlayerDimensionSwap>().m_isBlue != m_isBlue))
-        //{
-        //gameObject.GetComponent<PlayerMovement>()->ReturnToStart();
-        //}
+        if (a_collision.gameObject.tag == "Player" && a_collision.gameObject.GetComponent<PlayerSwap>().m_isPhased != m_isPhased)
+        {
+            m_player.transform.position = m_player.GetComponent<PlayerMovement>().m_startPosition;
+            m_cameraMovement.m_playerAlive = false;
+        }
     }
 }
