@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 	float m_yRayOffset = 0.03f;
 
 	[HideInInspector]
-	public Vector2 m_startPosition = Vector2.zero;
+	public Vector3 m_startPosition = Vector3.zero;
 	Vector2 m_moveVelocity = Vector2.zero;
 	Vector2 m_maxVelocity = Vector2.zero;
 	Vector2 m_wallHit = Vector2.zero;
@@ -136,5 +136,6 @@ public class PlayerMovement : MonoBehaviour
 			//}
 			//Debug.DrawRay(gameObject.transform.position + m_rayPosition, gameObject.transform.up, Color.magenta);
 		}
+		print(m_cameraMovement.m_playerAlive + "Alive");
 	}
 }

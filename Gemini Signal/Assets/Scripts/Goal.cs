@@ -25,15 +25,16 @@ public class Goal : MonoBehaviour
 		m_player = GameObject.FindGameObjectWithTag("Player");
 		m_victoryScreen = GameObject.FindGameObjectWithTag("VictoryScreen");
 		m_swapBar = GameObject.FindGameObjectWithTag("SwapBar");
+		m_victoryScreen.SetActive(false);
 	}
 
 	/*
 	 * Brief: activates victory screen and disables player movement when the player collides with this object
 	 */
-	private void OnCollisionEnter2D(Collision collision)
+	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		// if the collision object is the player
-		if (collision.gameObject == m_player)
+		if (collision.gameObject.tag == "Player")
 		{
 			// disable the player control scripts
 			m_player.GetComponent<PlayerJump>().enabled = false;
@@ -45,6 +46,6 @@ public class Goal : MonoBehaviour
 			m_victoryScreen.SetActive(true);
 
 		}
-			print("collided");
+		print("collided");
 	}
 }

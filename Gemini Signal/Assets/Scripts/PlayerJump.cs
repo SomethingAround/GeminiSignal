@@ -19,7 +19,7 @@ public class PlayerJump : MonoBehaviour
 	public float m_groundDrag = 6.0f;
 	float m_jumpTimer = 0.0f;
     float m_yRayOffset = 0.05f;
-    float m_rayLength = 0.9f;
+    //float m_rayLength = 0.9f;
 
     [HideInInspector]
 	public bool m_inAir = false;
@@ -43,7 +43,7 @@ public class PlayerJump : MonoBehaviour
 
 		m_jumpForcev2 = new Vector2(0.0f, m_jumpForce);
 
-        m_rayPosition = new Vector3(-(gameObject.transform.localScale.x / 2) + m_yRayOffset, -((gameObject.transform.localScale.y / 2) + m_yRayOffset), 0.0f);
+        m_rayPosition = new Vector3(-(gameObject.transform.localScale.x / 2) + m_yRayOffset + (0.3125f * 2.576f), -1.0f/*-((gameObject.transform.localScale.y) + m_yRayOffset)*/, 0.0f);
 
 		m_rb2d.drag = m_groundDrag;
 
@@ -91,7 +91,7 @@ public class PlayerJump : MonoBehaviour
 			//Store previous jump velocity
 			m_jumpVelocity = m_rb2d.velocity;
 
-			m_rayH2D = Physics2D.Raycast(gameObject.transform.position + m_rayPosition, gameObject.transform.right, m_rayLength - (m_yRayOffset * 2));
+			m_rayH2D = Physics2D.Raycast(gameObject.transform.position + m_rayPosition, gameObject.transform.right, 0.5f/*m_rayLength - (m_yRayOffset * 2)*/);
 			if (m_rayH2D.collider != null && m_rayH2D.collider.gameObject.tag == "Platform")
 			{
 				m_isOnGround = true;

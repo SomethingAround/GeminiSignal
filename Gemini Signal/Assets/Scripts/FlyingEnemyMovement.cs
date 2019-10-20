@@ -54,17 +54,20 @@ public class FlyingEnemyMovement : MonoBehaviour
 	 */
 	void Start()
     {
-		// add the enemy's starting position to the start of the positions list
-		m_waypoints.Insert(0, new Waypoint(gameObject.transform.position, m_swapYAtStart));
-		
-		// determine the first target direction
-		m_targetDirection = m_waypoints[m_targetIndex].m_position - transform.position;
-		m_targetDirection.Normalize();
-
-		// if the enemy has a child object, store it as the field of view so it can be hidden when turning on the Y axis
-		if (gameObject.transform.childCount >= 0)
+		if (m_waypoints.Count > 0)
 		{
-			m_fieldOfView = gameObject.transform.GetChild(0);
+			// add the enemy's starting position to the start of the positions list
+			m_waypoints.Insert(0, new Waypoint(gameObject.transform.position, m_swapYAtStart));
+
+			// determine the first target direction
+			m_targetDirection = m_waypoints[m_targetIndex].m_position - transform.position;
+			m_targetDirection.Normalize();
+
+			// if the enemy has a child object, store it as the field of view so it can be hidden when turning on the Y axis
+			if (gameObject.transform.childCount >= 0)
+			{
+				m_fieldOfView = gameObject.transform.GetChild(0);
+			}
 		}
 	}
 
@@ -73,85 +76,88 @@ public class FlyingEnemyMovement : MonoBehaviour
 	 */
 	void Update()
 	{
-		// if the enemy has reached its target position, determine the direction to get to the next target
-		if (m_waypoints[m_targetIndex].m_position == gameObject.transform.position)
+		if (m_waypoints.Count > 1)
 		{
-			// move to the next target in the list, or to the start of the list if at the end
-			if (m_targetIndex == m_waypoints.Count - 1)
+			// if the enemy has reached its target position, determine the direction to get to the next target
+			if (m_waypoints[m_targetIndex].m_position == gameObject.transform.position)
 			{
-				m_targetIndex = 0;
-			}
-			else
-			{
-				++m_targetIndex;
-			}
-			
-			// if the enemy is facing in the direction it should, set the target direction to be the direction to the next target
-			if (!m_waypoints[m_targetIndex].m_swapYRotation)
-			{
-				m_targetDirection = m_waypoints[m_targetIndex].m_position - transform.position;
-			}
-			// if the enemy is facing the wrong direction, set the target direction to be left or right, facing away from the target
-			else
-			{
-				m_targetDirection = (m_waypoints[m_targetIndex].m_position.x >= gameObject.transform.position.x) ? m_faceLeft : m_faceRight;
-			}
-			m_facingOpposite = false;
-			m_maneuverCompleted = false;
-			m_targetDirection.Normalize();
-		}
-		
-		// if the enemy has turned enough to reach its target direction, determine the next target direction or move towards the target
-		if (Vector3.Dot(gameObject.transform.right.normalized, m_targetDirection) > m_rotationThreshold)
-		{
-			gameObject.transform.right = m_targetDirection;
-
-			// if the y rotation needed to be swapped and the maneuver is not yet completed, determine the next direction to reach for the maneuver
-			if (m_waypoints[m_targetIndex].m_swapYRotation && !m_maneuverCompleted)
-			{
-				// if the enemy was previously facing opposite, rotate towards the target
-				if (m_facingOpposite)
+				// move to the next target in the list, or to the start of the list if at the end
+				if (m_targetIndex == m_waypoints.Count - 1)
 				{
-					// set the target direction to be towards the target
-					m_targetDirection = m_waypoints[m_targetIndex].m_position - transform.position;
-					m_targetDirection.Normalize();
-					m_maneuverCompleted = true;
-
-					// show the field of view
-					m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
-					m_fieldOfView.GetComponent<Collider2D>().enabled = true;
+					m_targetIndex = 0;
 				}
-				// if the enemy is starting the maneuver, rotate to be facing left or right, towards the target
 				else
 				{
-					// set the target direction to be left or right, towards the target
-					m_targetDirection = (m_waypoints[m_targetIndex].m_position.x >= gameObject.transform.position.x) ? m_faceRight : m_faceLeft;
-					m_facingOpposite = true;
+					++m_targetIndex;
+				}
 
-					// hide the field of view
-					m_fieldOfView.GetComponent<MeshRenderer>().enabled = false;
-					m_fieldOfView.GetComponent<Collider2D>().enabled = false;
+				// if the enemy is facing in the direction it should, set the target direction to be the direction to the next target
+				if (!m_waypoints[m_targetIndex].m_swapYRotation)
+				{
+					m_targetDirection = m_waypoints[m_targetIndex].m_position - transform.position;
+				}
+				// if the enemy is facing the wrong direction, set the target direction to be left or right, facing away from the target
+				else
+				{
+					m_targetDirection = (m_waypoints[m_targetIndex].m_position.x >= gameObject.transform.position.x) ? m_faceLeft : m_faceRight;
+				}
+				m_facingOpposite = false;
+				m_maneuverCompleted = false;
+				m_targetDirection.Normalize();
+			}
+
+			// if the enemy has turned enough to reach its target direction, determine the next target direction or move towards the target
+			if (Vector3.Dot(gameObject.transform.right.normalized, m_targetDirection) > m_rotationThreshold)
+			{
+				gameObject.transform.right = m_targetDirection;
+
+				// if the y rotation needed to be swapped and the maneuver is not yet completed, determine the next direction to reach for the maneuver
+				if (m_waypoints[m_targetIndex].m_swapYRotation && !m_maneuverCompleted)
+				{
+					// if the enemy was previously facing opposite, rotate towards the target
+					if (m_facingOpposite)
+					{
+						// set the target direction to be towards the target
+						m_targetDirection = m_waypoints[m_targetIndex].m_position - transform.position;
+						m_targetDirection.Normalize();
+						m_maneuverCompleted = true;
+
+						// show the field of view
+						m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
+						m_fieldOfView.GetComponent<Collider2D>().enabled = true;
+					}
+					// if the enemy is starting the maneuver, rotate to be facing left or right, towards the target
+					else
+					{
+						// set the target direction to be left or right, towards the target
+						m_targetDirection = (m_waypoints[m_targetIndex].m_position.x >= gameObject.transform.position.x) ? m_faceRight : m_faceLeft;
+						m_facingOpposite = true;
+
+						// hide the field of view
+						m_fieldOfView.GetComponent<MeshRenderer>().enabled = false;
+						m_fieldOfView.GetComponent<Collider2D>().enabled = false;
+					}
+				}
+				// if the rotation didn't need to be swapped or if the maneuver is completed
+				else
+				{
+					// move towards the target
+					gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, m_waypoints[m_targetIndex].m_position, m_moveSpeed * Time.deltaTime);
 				}
 			}
-			// if the rotation didn't need to be swapped or if the maneuver is completed
+			// if the enemy has not yet reached its target direction, rotate towards the target
 			else
 			{
-				// move towards the target
-				gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, m_waypoints[m_targetIndex].m_position, m_moveSpeed * Time.deltaTime);
-			}
-		}
-		// if the enemy has not yet reached its target direction, rotate towards the target
-		else
-		{
-			// if the enemy is facing in the opposite direction, rotate around the y axis
-			if (m_facingOpposite && !m_maneuverCompleted)
-			{
-				gameObject.transform.Rotate(gameObject.transform.up, ((m_waypoints[m_targetIndex].m_position.x >= gameObject.transform.position.x) ? -1 : 1) * m_rotationSpeed);
-			}
-			// otherwise, rotate around the z axis
-			else
-			{
-				gameObject.transform.right = Vector3.RotateTowards(gameObject.transform.right, m_targetDirection, m_rotationSpeed * Time.deltaTime, 0.0f);
+				// if the enemy is facing in the opposite direction, rotate around the y axis
+				if (m_facingOpposite && !m_maneuverCompleted)
+				{
+					gameObject.transform.Rotate(gameObject.transform.up, ((m_waypoints[m_targetIndex].m_position.x >= gameObject.transform.position.x) ? -1 : 1) * m_rotationSpeed);
+				}
+				// otherwise, rotate around the z axis
+				else
+				{
+					gameObject.transform.right = Vector3.RotateTowards(gameObject.transform.right, m_targetDirection, m_rotationSpeed * Time.deltaTime, 0.0f);
+				}
 			}
 		}
 	}

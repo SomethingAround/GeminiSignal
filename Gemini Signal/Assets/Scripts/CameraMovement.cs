@@ -26,7 +26,7 @@ public class CameraMovement : MonoBehaviour
 	public float m_playerDeathWaitTime;
 
 	[HideInInspector]
-	public bool m_playerAlive;
+	public bool m_playerAlive = true;
 	public float m_moveDuration;
 	public float m_yOffsetFromPlayer;
 	public float m_zOffsetFromPlayer;
@@ -38,7 +38,6 @@ public class CameraMovement : MonoBehaviour
     {
 		// store the player
 		m_player = GameObject.FindGameObjectWithTag("Player");
-		m_playerAlive = true;
 
 		// determine where the camera should move to when the player is respawning
 		m_playerPosition = m_player.transform.position;

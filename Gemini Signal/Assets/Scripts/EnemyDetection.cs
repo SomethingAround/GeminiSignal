@@ -19,7 +19,6 @@ public class EnemyDetection : MonoBehaviour
     {
         m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
         m_player = GameObject.FindGameObjectWithTag("Player");
-        m_cameraMovement.m_playerAlive = false;
     }
 
     /*
@@ -27,7 +26,7 @@ public class EnemyDetection : MonoBehaviour
      * Parameter: a_collision: to determine the collision that will be encountered
      * 
      */
-    private void OnTriggerEnter2D(Collider2D a_collision)
+    private void OnTriggerStay2D(Collider2D a_collision)
     {
         if (a_collision.gameObject.tag == "Player" && a_collision.gameObject.GetComponent<PlayerSwap>().m_isPhased != m_isPhased)
         {

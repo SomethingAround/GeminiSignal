@@ -19,7 +19,8 @@ public class PlayerSwap : MonoBehaviour
 
 	[HideInInspector]
 	public bool m_isPhased = false;
-	bool m_isPhasing = false;
+	[HideInInspector]
+	public bool m_isPhasing = false;
 
 	Material m_shader;
 

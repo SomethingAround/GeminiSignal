@@ -12,17 +12,17 @@ using UnityEngine;
 
 public class SwapBar : MonoBehaviour
 {
-    private float m_blueLevel = 2.0f;
+    public float m_phaseLevel = 2.0f;
     GameObject m_player;
-    private float m_rate = 1.0f;
-    private bool m_playerBlue = true;
+    public float m_rate = 1.0f;
+    bool m_playerPhased = false;
 
     /*
      * Start is called before the first frame update
     */
     void Start()
     {
-        m_player = GameObject.Find("Player");
+		m_player = GameObject.FindGameObjectWithTag("Player");
     }
 
     /*
@@ -30,22 +30,24 @@ public class SwapBar : MonoBehaviour
     */
     void Update()
     {
-        //This is how the swapbar will be working and how it will function
-        if (m_playerBlue && m_blueLevel > 0.0f)
+		m_playerPhased = m_player.GetComponent<PlayerSwap>().m_isPhased;
+
+		//This is how the swapbar will be working and how it will function
+		if (m_playerPhased && m_phaseLevel > 0.0f)
         {
-            m_blueLevel -= m_rate * Time.deltaTime;
+            m_phaseLevel -= m_rate * Time.deltaTime;
         }
-        else if (!m_playerBlue && m_blueLevel < 4.0f)
+        else if (!m_playerPhased && m_phaseLevel < 4.0f)
         {
-            m_blueLevel += m_rate * Time.deltaTime;
+            m_phaseLevel += m_rate * Time.deltaTime;
         }
 
-        if (m_blueLevel <= 0.0f && m_playerBlue || m_blueLevel >= 4.0f && !m_playerBlue)
+        if (m_phaseLevel <= 0.0f && m_playerPhased || m_phaseLevel >= 4.0f && !m_playerPhased)
         {
-            m_player.GetComponent<PlayerSwap>().m_isPhased = !m_player.GetComponent<PlayerSwap>().m_isPhased;
-            m_player.GetComponent<PlayerSwap>().m_phaseTimer = 0.0f;
+			m_player.GetComponent<PlayerSwap>().m_isPhasing = true;
         }
-    }
 
-
+		gameObject.GetComponent<RectTransform>().localPosition = new Vector3(505.4953f, (m_phaseLevel * 25.0f) + 54.0f, 0.0f);
+		gameObject.GetComponent<RectTransform>().localScale = new Vector3(0.1752778f, m_phaseLevel / 2.0f, 0.5842592f);
+	}
 }
