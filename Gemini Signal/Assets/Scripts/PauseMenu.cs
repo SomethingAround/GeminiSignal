@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /*
@@ -8,7 +9,7 @@ using UnityEngine.UI;
  *  Author: Steven Pham
  *  Description: displays a pause menu that the player either continue the game or go to main menu or quit the game
  *  Creation Date: 8/8/2019
- *  Last Modified : 9/8/2019
+ *  Last Modified : 21/8/2019
 */
 
 public class PauseMenu : MonoBehaviour
@@ -25,11 +26,16 @@ public class PauseMenu : MonoBehaviour
     */
     void Update()
     {
-        
+        //When they press Escape the pause menu pops up and the game is frozen
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Debug.Log("Escape key was pressed");
+        }
     }
 
     public void Quit()
     {
+        //Quits the game
         Application.Quit();
         Debug.Log("Exiting game");
     }
@@ -41,6 +47,7 @@ public class PauseMenu : MonoBehaviour
 
     public void MainMenu()
     {
-        //Application.LoadLevel("Name of Main Menu");
+        //Goes to the Main Menu
+        SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Single);
     }
 }
