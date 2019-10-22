@@ -14,37 +14,55 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    /*
-     * Start is called before the first frame update
-    */
-    void Start()
+    public Canvas pauseMenu;
+    public void Start()
     {
+        Time.timeScale = 1;
+        pauseMenu = GetComponent<Canvas>();
+        pauseMenu.enabled = false;
     }
-
     /*
-     * Update is called once per frame
+     * Breif: Update is called once per frame
     */
     void Update()
     {
         //When they press Escape the pause menu pops up and the game is frozen
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("Escape key was pressed");
+            if (Time.timeScale == 1)
+            {
+                Time.timeScale = 0;
+                pauseMenu.enabled = true;
+            }
+            else if (Time.timeScale == 0)
+            {
+                Time.timeScale = 1;
+                pauseMenu.enabled = false;
+            }
+
         }
     }
 
+    /*
+     * Breif: Quits the game
+    */
     public void Quit()
     {
         //Quits the game
         Application.Quit();
         Debug.Log("Exiting game");
     }
-
+    /*
+     * Continues the game
+    */
     public void Continue()
     {
-
+        SceneManager.LoadSceneAsync("GameLevel", LoadSceneMode.Single);
     }
 
+    /*
+     * Breif: Load the Main Menu
+    */
     public void MainMenu()
     {
         //Goes to the Main Menu
