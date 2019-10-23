@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Quit Button
+  - Continue Button
+  - Main Menu Button
   - Platform
-  - MainMenu
-  - VictoryScreen
-  - SwapBar
   layers:
   - Default
   - TransparentFX
