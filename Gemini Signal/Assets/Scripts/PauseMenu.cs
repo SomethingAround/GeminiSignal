@@ -9,7 +9,7 @@ using UnityEngine.UI;
  *  Author: Steven Pham
  *  Description: displays a pause menu that the player either continue the game or go to main menu or quit the game
  *  Creation Date: 8/8/2019
- *  Last Modified : 21/8/2019
+ *  Last Modified : 23/8/2019
 */
 
 public class PauseMenu : MonoBehaviour
@@ -21,19 +21,28 @@ public class PauseMenu : MonoBehaviour
         pauseMenu = GetComponent<Canvas>();
         pauseMenu.enabled = false;
     }
+
     /*
      * Breif: Update is called once per frame
     */
     void Update()
     {
-        //When they press Escape the pause menu pops up and the game is frozen
+        /*
+         * Brief: When they press Escape the pause menu pops up and the game is frozen
+        */
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            /*
+             * Game is paused and the Pause Menu is displayed
+            */
             if (Time.timeScale == 1)
             {
                 Time.timeScale = 0;
                 pauseMenu.enabled = true;
             }
+            /*
+             * Brief: Game is unpaused and the Pause Menu is hidden 
+            */
             else if (Time.timeScale == 0)
             {
                 Time.timeScale = 1;
@@ -53,7 +62,7 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Exiting game");
     }
     /*
-     * Continues the game
+     * Brief: Continues the game
     */
     public void Continue()
     {
