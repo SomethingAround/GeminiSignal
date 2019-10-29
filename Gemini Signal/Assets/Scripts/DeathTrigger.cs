@@ -35,6 +35,7 @@ public class DeathTrigger : MonoBehaviour
 			m_player.SetActive(false);
 
 			m_player.transform.position = m_player.GetComponent<PlayerMovement>().m_startPosition;
+			m_player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		}
 	}
 }

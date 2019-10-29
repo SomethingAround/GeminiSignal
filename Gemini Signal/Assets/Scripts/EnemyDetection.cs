@@ -34,7 +34,8 @@ public class EnemyDetection : MonoBehaviour
         if (a_collision.gameObject.tag == "Player" && a_collision.gameObject.GetComponent<PlayerSwap>().m_isPhased != m_isPhased)
         {
             m_player.transform.position = m_player.GetComponent<PlayerMovement>().m_startPosition;
-            m_cameraMovement.m_playerAlive = false;
+			m_player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			m_cameraMovement.m_playerAlive = false;
         }
     }
 }
