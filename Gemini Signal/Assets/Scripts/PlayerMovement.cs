@@ -5,10 +5,10 @@ using XboxCtrlrInput;
 
 /*
  * File Name: PlayerMovement.cs
- * Author: Connor Li
+ * Author: Connor Li, Michael Sweetman
  * Description: Manages the player's movement
  * Creation Date: 08/10/2019
- * Last Modified: 15/10/2019
+ * Last Modified: 29/10/2019
  */
 
 public class PlayerMovement : MonoBehaviour
