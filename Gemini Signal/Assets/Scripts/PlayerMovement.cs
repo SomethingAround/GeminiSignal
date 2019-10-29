@@ -117,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
 			else
 			{
 				m_currentSpeed = m_groundSpeed;
+				m_aerialMaxSpeed = Mathf.Abs(m_rb2d.velocity.x);
 			}
 
 			m_rayRH2D = Physics2D.Raycast(gameObject.transform.position + m_rayPosition, gameObject.transform.up, m_playerDimensions.y - m_yRayOffset);
