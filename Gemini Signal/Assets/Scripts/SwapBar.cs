@@ -7,7 +7,7 @@ using UnityEngine;
  * Author: Steven Pham, Michael Sweetman
  * Description: to display the time they have till they are forced to switch
  * Creation Date: 8/10/2019
- * Last Modified: 28/10/2019
+ * Last Modified: 04/11/2019
  */
 
 public class SwapBar : MonoBehaviour
@@ -25,9 +25,9 @@ public class SwapBar : MonoBehaviour
 	 */
 	void Start()
     {
+		// store player object and scale of the bar
 		m_player = GameObject.FindGameObjectWithTag("Player");
 		m_scale = gameObject.GetComponent<RectTransform>().localScale;
-
 	}
 
 	/*
@@ -35,6 +35,7 @@ public class SwapBar : MonoBehaviour
 	 */
 	void Update()
     {
+		// get the player's current phase state
 		m_playerPhased = m_player.GetComponent<PlayerSwap>().m_isPhased;
 
 		// if the player is phased and the phase level hasn't reached its minimum, decrease the phase level

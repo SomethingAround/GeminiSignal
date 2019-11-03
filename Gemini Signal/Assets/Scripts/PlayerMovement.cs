@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
 	Vector2 m_playerDimensions = Vector2.zero;
 
 	/* 
-	 * Start is called before the first frame update
+	 * Brief: initialise variables for the player's horizontal movement
 	 */
 	void Start()
     {
@@ -63,18 +63,20 @@ public class PlayerMovement : MonoBehaviour
 		m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
 	}
 
-	/*
-	 * Update is called once per frame
+	/* 
+	 * Brief: manage the horizontal movement of the player
 	 */
 	void Update()
     {
+		// if the player is alive
 		if (m_cameraMovement.m_playerAlive)
 		{
 			m_direction = Input.GetAxis("Horizontal");
 			//Sets m_translation to - or + move speed
 			m_translation = m_direction * m_currentSpeed;
-			//Sets moveVelocities x to m_translation
+			//Sets moveVelocity's x to m_translation
 			m_moveVelocity.x = m_translation;
+
 			//Sets ray position to the left or right side of player
 			if (m_moveVelocity.x > 0)
 			{
@@ -84,7 +86,8 @@ public class PlayerMovement : MonoBehaviour
 			{
 				m_rayPosition.x = -m_playerDimensions.x - m_minWallDistance;
 			}
-			//Increases velocity by the 
+
+			//Increases velocity by the move velocity
 			m_rb2d.velocity += m_moveVelocity;
 
 			//If jump is pressed set max aerial speed to current x velocity
@@ -96,11 +99,12 @@ public class PlayerMovement : MonoBehaviour
 			//Checks if x velocity is greater than max speed in either direction
 			if (m_rb2d.velocity.x > m_maxSpeed || m_rb2d.velocity.x < -m_maxSpeed)
 			{
+				// set the player's speed to the max speed of the direction it is moving
 				m_maxVelocity.Set(m_direction * m_maxSpeed, m_rb2d.velocity.y);
 				m_rb2d.velocity = m_maxVelocity;
 			}
 
-			//Checks if the play is in the air
+			//Checks if the player is in the air
 			if (m_playJump.m_inAir)
 			{
 				m_currentSpeed = m_airSpeed;
@@ -108,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
 				//Checks if x velocity is greater than max speed
 				if (Mathf.Abs(m_rb2d.velocity.x) > m_aerialMaxSpeed)
 				{
+					// set the player's speed to the max speed of the direction it is moving
 					m_maxVelocity.Set( ((m_rb2d.velocity.x >= 0) ? 1 : -1) * m_aerialMaxSpeed, m_rb2d.velocity.y);
 					m_rb2d.velocity = m_maxVelocity;
 				}
@@ -117,17 +122,21 @@ public class PlayerMovement : MonoBehaviour
 			else
 			{
 				m_currentSpeed = m_groundSpeed;
+
+				// determine what the max aerial speed would be for if the player were to fall of a platform without jumping
 				m_aerialMaxSpeed = Mathf.Abs(m_rb2d.velocity.x);
 			}
 
+			// draw a raycast adjacent to the player, in the direction they are moving
 			m_rayRH2D = Physics2D.Raycast(gameObject.transform.position + m_rayPosition, gameObject.transform.up, m_playerDimensions.y - m_yRayOffset);
+
+			// if the raycast collides with a platform, the player is hitting a wall
 			if (m_rayRH2D.collider != null && m_rayRH2D.collider.gameObject.tag == "Platform")
 			{
+				// set the player's horizontal velocity to 0
 				m_wallHit.y = m_rb2d.velocity.y;
 				m_rb2d.velocity = m_wallHit;
 			}
-			Debug.DrawRay(gameObject.transform.position + m_rayPosition, gameObject.transform.up, Color.magenta);
 		}
-		print(m_cameraMovement.m_playerAlive + "Alive");
 	}
 }

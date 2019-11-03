@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages how the camera moves, based on the position of the player
  * Creation Date: 07/10/2019
- * Last Modified: 15/10/2019
+ * Last Modified: 28/11/2019
  */
 
 using System.Collections;
@@ -85,6 +85,7 @@ public class CameraMovement : MonoBehaviour
 				m_cameraPosition.Set(m_newPosition.x, m_newPosition.y, gameObject.transform.position.z);
 				gameObject.transform.position = m_cameraPosition;
 
+				// if the camera has reached the start position, start following the player again
 				if (Mathf.Abs(Vector3.SqrMagnitude(m_cameraPosition - m_cameraStartPosition)) < m_distanceThreshold)
 				{
 					m_playerAlive = true;

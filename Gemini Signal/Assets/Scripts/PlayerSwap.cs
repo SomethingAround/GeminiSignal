@@ -24,37 +24,52 @@ public class PlayerSwap : MonoBehaviour
 
 	Material m_shader;
 
-    // Start is called before the first frame update
-    void Start()
+	/* 
+	 * Brief: gets the player's shader
+	 */
+	void Start()
     {
 		m_shader = gameObject.GetComponent<Renderer>().material;  
     }
 
-    // Update is called once per frame
-    void Update()
+	/* 
+	 * Brief: manage the swapping of the player
+	 */
+	void Update()
     {
+		// if the swap button is pressed, start phasing
 		if (Input.GetButtonDown("Swap"))
 		{
 			m_isPhasing = true;
 		}
 
+		// if the player is phasing, update the shader
 		if (m_isPhasing)
 		{
+			// increate the timer
 			m_phaseTimer += Time.deltaTime / m_timeTillPhased;
 
+			// if the player is phased
 			if(m_isPhased)
 			{
+				// decrease the value of the shader
 				m_shader.SetFloat("_Cloak_per", m_downPhase - m_phaseTimer);
 			}
+			// if the player is not phased
 			else
 			{
+				// increase the value of the shader
 				m_shader.SetFloat("_Cloak_per", m_phaseTimer);
 			}
 
+			// if the phase timer has run out
 			if(m_phaseTimer >= m_timeTillPhased)
 			{
+				// stop phasing
 				m_isPhasing = false;
+				// swap the current phase state of the player
 				m_isPhased = !m_isPhased;
+				// reset the timer
 				m_phaseTimer = 0.0f;
 			}
 		}

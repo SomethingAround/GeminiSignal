@@ -8,7 +8,7 @@ using XboxCtrlrInput;
  * Author: Connor Li, Michael Sweetman
  * Description: Manages the player's jump
  * Creation Date: 07/10/2019
- * Last Modified: 29/10/2019
+ * Last Modified: 04/11/2019
  */
 
 public class PlayerJump : MonoBehaviour
@@ -33,8 +33,9 @@ public class PlayerJump : MonoBehaviour
 	Vector2 m_playerDimensions = Vector2.zero;
 
 	CameraMovement m_cameraMovement;
+	
 	/* 
-	 * Start is called before the first frame update
+	 * Brief: initialise variables for the player's jump
 	 */
 	void Start()
     {
@@ -52,19 +53,20 @@ public class PlayerJump : MonoBehaviour
 	}
 
     /*
-	 * Update is called once per frame
+	 * Brief: manage the jump of the player
 	 */
     void Update()
     {
+		// if the player is alive
 		if (m_cameraMovement.m_playerAlive)
 		{
-			//If the jump key or button goes down jump
+			// If the jump button goes down and the player is not in the air, jump
 			if (Input.GetButtonDown("Jump") && m_jumpTimer == 0.0f && !m_inAir)
 			{
 				m_rb2d.AddForce(m_jumpForcev2, ForceMode2D.Impulse);
 				m_jumpTimer += Time.deltaTime;
 			}
-			//If the jump key or button is let go set timer to max
+			// If the jump key or button is let go, stop jumping
 			else if (Input.GetButtonUp("Jump"))
 			{
 				//Checks if the player is in the air
@@ -78,7 +80,7 @@ public class PlayerJump : MonoBehaviour
 					m_jumpTimer = 0.0f;
 				}
 			}
-			//If jump key or button is held hold velocity and increase timer
+			//If jump key or button is held maintain velocity and increase timer
 			else if (Input.GetButton("Jump") && m_jumpTimer < m_maxJumpTime)
 			{
 				//Checks if player is in the air
@@ -89,24 +91,26 @@ public class PlayerJump : MonoBehaviour
 				}
 				m_jumpTimer += Time.deltaTime;
 			}
+
 			//Store previous jump velocity
 			m_jumpVelocity = m_rb2d.velocity.y;
-
+			
+			// draw a raycast below the player
 			m_rayH2D = Physics2D.Raycast(gameObject.transform.position + m_rayPosition, gameObject.transform.right, m_playerDimensions.x - m_rayOffset);
+
+			// if the raycast collides with a platform, the player is touching the ground
 			if (m_rayH2D.collider != null && m_rayH2D.collider.gameObject.tag == "Platform")
 			{
 				m_inAir = false;
 				m_rb2d.drag = m_groundDrag;
 				m_jumpTimer = 0.0f;
 			}
+			// if the raycast does not collide with a platform, the player is in the air
 			else
 			{
 				m_inAir = true;
 				m_rb2d.drag = 0.0f;
 			}
-
-			Debug.DrawRay(gameObject.transform.position + m_rayPosition, gameObject.transform.right, Color.magenta);
-			print(m_inAir + "Air");
 		}
     }
 }
