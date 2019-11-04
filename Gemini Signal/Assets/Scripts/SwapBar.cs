@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class SwapBar : MonoBehaviour
 {
-    GameObject m_player;
+    PlayerSwap m_playerSwap;
 	float m_maxPhase = 100.0f;
 	float m_phaseLevel = 50.0f;
     bool m_playerPhased = false;
@@ -25,8 +25,8 @@ public class SwapBar : MonoBehaviour
 	 */
 	void Start()
     {
-		// store player object and scale of the bar
-		m_player = GameObject.FindGameObjectWithTag("Player");
+		// store player's swap script and scale of the bar
+		m_playerSwap = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerSwap>();
 		m_scale = gameObject.GetComponent<RectTransform>().localScale;
 	}
 
@@ -36,7 +36,7 @@ public class SwapBar : MonoBehaviour
 	void Update()
     {
 		// get the player's current phase state
-		m_playerPhased = m_player.GetComponent<PlayerSwap>().m_isPhased;
+		m_playerPhased = m_playerSwap.m_isPhased;
 
 		// if the player is phased and the phase level hasn't reached its minimum, decrease the phase level
 		if (m_playerPhased && m_phaseLevel > 0.0f)
@@ -52,8 +52,9 @@ public class SwapBar : MonoBehaviour
 		// if the player is phased and the phase level is depleted, or if the player is not phased and the phase level has maxed out, force the player to swap states
         if (m_phaseLevel <= 0.0f && m_playerPhased || m_phaseLevel >= m_maxPhase && !m_playerPhased)
         {
-			m_player.GetComponent<PlayerSwap>().m_isPhasing = true;
-        }
+			m_playerSwap.m_isPhasing = true;
+			m_playerSwap.m_isPhased = !m_playerSwap.m_isPhased;
+		}
 
 		// determine the y scale of the bar using the phase level
 		gameObject.GetComponent<RectTransform>().localScale = new Vector3(m_scale.x, (m_phaseLevel / m_maxPhase) * m_scale.y, m_scale.z);
