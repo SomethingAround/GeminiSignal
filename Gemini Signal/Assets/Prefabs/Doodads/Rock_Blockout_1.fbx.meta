@@ -1,16 +1,30 @@
 fileFormatVersion: 2
-guid: b6f4e0ac523a79d4eb212afeb2778989
+guid: d7024cedc61b3484bb26659ca8761546
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2100000: Dark_green
-    2100002: Light_green
-    2100004: Wood
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Tree_Top_1_Large_Basic_Leaves1
+    100000: polySurface90
+    100002: polySurface90 1
+    100004: polySurface91
+    100006: Rock_2
+    100008: //RootNode
+    100010: Rocks
+    100012: transform1
+    100014: transform2
+    100016: transform3
+    400000: polySurface90
+    400002: polySurface90 1
+    400004: polySurface91
+    400006: Rock_2
+    400008: //RootNode
+    400010: Rocks
+    400012: transform1
+    400014: transform2
+    400016: transform3
+    2100000: lambert10
+    2300000: polySurface90
+    3300000: polySurface90
+    4300000: polySurface90
   externalObjects: {}
   materials:
     importMaterials: 1

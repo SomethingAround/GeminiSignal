@@ -1,16 +1,14 @@
 fileFormatVersion: 2
-guid: b6f4e0ac523a79d4eb212afeb2778989
+guid: 6a4d2b5720f374949bbda71aec586841
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Dark_green
-    2100002: Light_green
-    2100004: Wood
+    2100000: lambert3
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Tree_Top_1_Large_Basic_Leaves1
+    4300000: Foot_R
   externalObjects: {}
   materials:
     importMaterials: 1
