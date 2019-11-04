@@ -7,7 +7,7 @@ using UnityEngine;
  * Author: Connor Li
  * Description: Checks if the player has hit the death trigger
  * Creation Date: 15/10/2019
- * Last Modified: 28/11/2019
+ * Last Modified: 28/10/2019
  */
 
 public class DeathTrigger : MonoBehaviour

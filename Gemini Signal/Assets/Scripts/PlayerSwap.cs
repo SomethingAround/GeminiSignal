@@ -4,10 +4,10 @@ using UnityEngine;
 
 /*
  * File Name: PlayerSwap.cs
- * Author: Connor Li
+ * Author: Connor Li, Michael Sweetman
  * Description: Manages the swapping of the player
  * Creation Date: 14/10/2019
- * Last Modified: 14/10/2019
+ * Last Modified: 04/11/2019
  */
 
 public class PlayerSwap : MonoBehaviour
@@ -38,37 +38,38 @@ public class PlayerSwap : MonoBehaviour
 	void Update()
     {
 		// if the swap button is pressed, start phasing
-		if (Input.GetButtonDown("Swap"))
+		if (Input.GetButtonDown("Swap") && !m_isPhasing)
 		{
+			// set m_isPhasing to true so the phase animation begins
 			m_isPhasing = true;
+			// swap the current phase state of the player
+			m_isPhased = !m_isPhased;
 		}
 
 		// if the player is phasing, update the shader
 		if (m_isPhasing)
 		{
-			// increate the timer
-			m_phaseTimer += Time.deltaTime / m_timeTillPhased;
+			// increase the timer
+			m_phaseTimer += Time.deltaTime;
 
 			// if the player is phased
 			if(m_isPhased)
 			{
-				// decrease the value of the shader
-				m_shader.SetFloat("_Cloak_per", m_downPhase - m_phaseTimer);
+				// increase the value of the shader
+				m_shader.SetFloat("_Cloak_per", m_phaseTimer);
 			}
 			// if the player is not phased
 			else
 			{
-				// increase the value of the shader
-				m_shader.SetFloat("_Cloak_per", m_phaseTimer);
+				// decrease the value of the shader
+				m_shader.SetFloat("_Cloak_per", m_downPhase - m_phaseTimer);
 			}
 
-			// if the phase timer has run out
+			// if the phase timer has run out, stop phasing
 			if(m_phaseTimer >= m_timeTillPhased)
 			{
 				// stop phasing
 				m_isPhasing = false;
-				// swap the current phase state of the player
-				m_isPhased = !m_isPhased;
 				// reset the timer
 				m_phaseTimer = 0.0f;
 			}
