@@ -9,7 +9,7 @@ using UnityEngine.UI;
  *  Author: Steven Pham
  *  Description: displays a pause menu that the player either continue the game or go to main menu or quit the game
  *  Creation Date: 8/8/2019
- *  Last Modified : 23/8/2019
+ *  Last Modified : 4/11/2019
 */
 
 public class PauseMenu : MonoBehaviour
@@ -66,7 +66,9 @@ public class PauseMenu : MonoBehaviour
     */
     public void Continue()
     {
-        SceneManager.LoadSceneAsync("GameLevel", LoadSceneMode.Single);
+        //SceneManager.LoadSceneAsync("GameLevel", LoadSceneMode.Single);
+        Time.timeScale = 1;
+        pauseMenu.enabled = false;
     }
 
     /*
