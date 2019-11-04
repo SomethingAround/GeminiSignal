@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of walking enemies
  * Creation Date: 08/10/2019
- * Last Modified: 14/10/2019
+ * Last Modified: 4/11/2019
  */
 
 using System.Collections;
@@ -64,8 +64,12 @@ public class WalkingEnemyMovement : MonoBehaviour
 					gameObject.transform.right = m_faceRight;
 					
 					m_turning = false;
-					m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
-					m_fieldOfView.GetComponent<Collider2D>().enabled = true;
+
+					if (m_fieldOfView != null)
+					{
+						m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
+						m_fieldOfView.GetComponent<Collider2D>().enabled = true;
+					}
 				}
 			}
 			// if the target is to the left
@@ -79,8 +83,12 @@ public class WalkingEnemyMovement : MonoBehaviour
 				{
 					gameObject.transform.right = m_faceLeft;
 					m_turning = false;
-					m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
-					m_fieldOfView.GetComponent<Collider2D>().enabled = true;
+
+					if (m_fieldOfView != null)
+					{
+						m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
+						m_fieldOfView.GetComponent<Collider2D>().enabled = true;
+					}
 				}
 			}
 		}
@@ -103,8 +111,12 @@ public class WalkingEnemyMovement : MonoBehaviour
 			{
 				m_targetXPosition = (m_targetXPosition == m_endXPosition) ? m_startXPosition : m_endXPosition;
 				m_turning = true;
-				m_fieldOfView.GetComponent<MeshRenderer>().enabled = false;
-				m_fieldOfView.GetComponent<Collider2D>().enabled = false;
+
+				if (m_fieldOfView != null)
+				{
+					m_fieldOfView.GetComponent<MeshRenderer>().enabled = false;
+					m_fieldOfView.GetComponent<Collider2D>().enabled = false;
+				}
 			}
 		}
 	}

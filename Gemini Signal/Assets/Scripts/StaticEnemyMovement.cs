@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the rotation of static enemies
  * Creation Date: 09/10/2019
- * Last Modified: 09/10/2019
+ * Last Modified: 04/11/2019
  */
 
 using System.Collections;

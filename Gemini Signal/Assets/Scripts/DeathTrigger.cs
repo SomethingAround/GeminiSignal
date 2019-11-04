@@ -20,7 +20,7 @@ public class DeathTrigger : MonoBehaviour
 	 */
 	void Start()
 	{
-		m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
+		m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>(); 
 		m_player = GameObject.FindGameObjectWithTag("Player");
 	}
 
