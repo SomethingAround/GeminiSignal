@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of walking enemies
  * Creation Date: 08/10/2019
- * Last Modified: 4/11/2019
+ * Last Modified: 6/11/2019
  */
 
 using System.Collections;
@@ -24,9 +24,9 @@ public class WalkingEnemyMovement : MonoBehaviour
 	bool m_turning = true;
 	Transform m_fieldOfView;
 
-	public float m_endXPosition;
-	public float m_moveSpeed;
-	public float m_rotationSpeed;
+	public float m_endXPosition = 10;
+	public float m_moveSpeed = 3;
+	public float m_rotationSpeed = 3;
 
 	/*
 	 * Brief: Initialisation for the enemy

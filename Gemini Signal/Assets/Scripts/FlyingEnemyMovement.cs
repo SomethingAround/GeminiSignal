@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of flying enemies
  * Creation Date: 07/10/2019
- * Last Modified: 04/11/2019
+ * Last Modified: 06/11/2019
  */
 
 using System.Collections;
@@ -24,37 +24,36 @@ public class FlyingEnemyMovement : MonoBehaviour
 	int m_targetIndex = 0;
 	Vector3 m_targetPosition;
 	Vector3 m_targetDirection;
+
 	float m_rotationThreshold = 0.999f;
+	float m_pitchTimer = 0.0f;
+	Quaternion m_originRotation;
 
 	Transform m_fieldOfView;
 
 	/*
 	 * Brief: a structure that stores whether the enemy's yaw needs to be rotated and the amount that the enemy is to move
-	 * Parameter: a_swapYRotation: states whether the enemy's yaw needs to be rotated
-	 * Parameter: a_offset: the amount in each coordinate that the enemy needs to move
 	 */
 	[System.Serializable]
 	public struct Movement
 	{
 		public bool m_swapYawRotation;
 		public Vector3 m_offset;
-
-		public Movement(bool a_swapYawRotation, Vector3 a_offset)
-		{
-			m_swapYawRotation = a_swapYawRotation;
-			m_offset = a_offset;
-		}
 	}
 
-	public float m_moveSpeed;
-	public float m_rotationSpeed;
-	public float m_yawRotationSpeed;
+	public float m_moveSpeed = 3;
+	public float m_pitchRotationSpeed = 3;
+	public float m_yawRotationSpeed = 6;
 	public List<Movement> m_movements;
+
 
 	void Start()
 	{
 		// determine the first target position
 		m_targetPosition = transform.position + m_movements[m_targetIndex].m_offset;
+
+		// store the start rotation as the origin rotation
+		m_originRotation = transform.rotation;
 
 		// if the yaw rotation is to be swapped, set the enemy to start rotating so it is facing horizontally away from the target
 		if (m_movements[m_targetIndex].m_swapYawRotation)
@@ -86,14 +85,15 @@ public class FlyingEnemyMovement : MonoBehaviour
 			{
 				// if the enemy is currently rotating to face horizontally away from its target
 				case MoveStep.rotatingTowardsOpposite:
-					// rotate the right vector towards the target direction
-					transform.right = Vector3.RotateTowards(transform.right, m_targetDirection, m_rotationSpeed * Time.deltaTime, 0.0f);
+					// rotate towards the target direction
+					m_pitchTimer += Time.deltaTime * m_pitchRotationSpeed;
+					transform.rotation = Quaternion.Lerp(m_originRotation, Quaternion.LookRotation(m_targetDirection, Vector3.up) * Quaternion.Euler(0, -90, 0), m_pitchTimer);
 
 					// if the enemy has rotated enough to reach its target direction
 					if (Vector3.Dot(transform.right, m_targetDirection) > m_rotationThreshold)
 					{
-						// set the right vector to exactly face the target direction
-						transform.right = m_targetDirection;
+						// set the rotation so the enemy exactly faces the target direction
+						transform.rotation = Quaternion.LookRotation(m_targetDirection, Vector3.up) * Quaternion.Euler(0, -90, 0);
 						// set the target direction to be facing horizontally towards its target
 						m_targetDirection = (m_targetPosition.x >= transform.position.x) ? Vector3.right : Vector3.left;
 						++m_currentMoveStep;
@@ -122,6 +122,11 @@ public class FlyingEnemyMovement : MonoBehaviour
 						m_targetDirection.Normalize();
 						++m_currentMoveStep;
 
+						// store the current rotation as the origin rotation
+						m_originRotation = transform.rotation;
+						// reset the timer
+						m_pitchTimer = 0.0f;
+
 						// if the enemy has a field of view, enable it
 						if (m_fieldOfView != null)
 						{
@@ -133,14 +138,16 @@ public class FlyingEnemyMovement : MonoBehaviour
 
 				// if the enemy is currently rotating to face towards its target
 				case MoveStep.rotatingTowardsTarget:
-					// rotate the right vector towards the target direction
-					transform.right = Vector3.RotateTowards(transform.right, m_targetDirection, m_rotationSpeed * Time.deltaTime, 0.0f);
-					
+					// rotate towards the target direction
+					m_pitchTimer += Time.deltaTime * m_pitchRotationSpeed;
+					Vector3 yAxis = Vector3.Cross(m_targetDirection, ((m_targetDirection.x >= 0.0f) ? -1 : 1) * Vector3.forward);
+					transform.rotation = Quaternion.Lerp(m_originRotation, Quaternion.LookRotation(m_targetDirection, yAxis) * Quaternion.Euler(0, -90, 0), m_pitchTimer);
+
 					// if the enemy has rotated enough to reach its target direction
 					if (Vector3.Dot(transform.right, m_targetDirection) > m_rotationThreshold)
 					{
-						// set the right vector to exactly face the target direction
-						transform.right = m_targetDirection;
+						// set the rotation so the enemy exactly faces the target direction
+						transform.rotation = Quaternion.LookRotation(m_targetDirection, yAxis) * Quaternion.Euler(0, -90, 0);
 						++m_currentMoveStep;
 					}
 					break;
@@ -179,9 +186,15 @@ public class FlyingEnemyMovement : MonoBehaviour
 							m_targetDirection.Normalize();
 							m_currentMoveStep = MoveStep.rotatingTowardsTarget;
 						}
+
+						// store the current rotation as the origin rotation
+						m_originRotation = transform.rotation;
+						// reset the timer
+						m_pitchTimer = 0.0f;
 					}
 					break;
 			}
 		}
+		print(m_targetIndex);
 	}
 }

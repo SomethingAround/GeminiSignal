@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the rotation of static enemies
  * Creation Date: 09/10/2019
- * Last Modified: 04/11/2019
+ * Last Modified: 06/11/2019
  */
 
 using System.Collections;
@@ -17,8 +17,8 @@ public class StaticEnemyMovement : MonoBehaviour
 	Vector3 m_endRotation;
 	float m_rotationThreshold = 0.99999f;
 
-	public float m_endZRotation;
-	public float m_rotationSpeed;
+	public float m_endZRotation = 50;
+	public float m_rotationSpeed = 1;
 
     /*
 	 * Brief: determines the start and end rotations that the enemy wil cycle between

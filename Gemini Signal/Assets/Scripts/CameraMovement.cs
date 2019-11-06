@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages how the camera moves, based on the position of the player
  * Creation Date: 07/10/2019
- * Last Modified: 28/11/2019
+ * Last Modified: 06/11/2019
  */
 
 using System.Collections;
@@ -23,13 +23,13 @@ public class CameraMovement : MonoBehaviour
 	Vector3 m_velocity = Vector3.zero;
 
 	float m_playerDeathWaitTimer = 0.0f;
-	public float m_playerDeathWaitTime;
 
 	[HideInInspector]
 	public bool m_playerAlive = true;
-	public float m_moveDuration;
-	public float m_yOffsetFromPlayer;
-	public float m_zOffsetFromPlayer;
+	public float m_playerDeathWaitTime = 0.5f;
+	public float m_moveDuration = 0.3f;
+	public float m_yOffsetFromPlayer = 1.0f;
+	public float m_zOffsetFromPlayer = 10.0f;
 
     /*
 	 * Brief: Initialisation for the camera
