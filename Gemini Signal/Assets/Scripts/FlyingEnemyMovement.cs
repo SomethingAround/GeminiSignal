@@ -141,7 +141,7 @@ public class FlyingEnemyMovement : MonoBehaviour
 
 					// determine which direction will be enemy's up once it finishes rotating
 					Vector3 yAxis = Vector3.zero;
-					if (m_originRotation.eulerAngles.y > 0.0f && m_targetDirection.x > -0.1f && m_targetDirection.x < 0.1f)
+					if (m_originRotation.eulerAngles.y > 0.0f && m_targetDirection.x > -1.0f + m_rotationThreshold && m_targetDirection.x < 1.0f - m_rotationThreshold)
 					{
 						yAxis = Vector3.Cross(m_targetDirection, ((m_targetDirection.x >= 0.0f) ? 1 : -1) * Vector3.forward);
 					}
