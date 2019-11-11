@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of flying enemies
  * Creation Date: 07/10/2019
- * Last Modified: 06/11/2019
+ * Last Modified: 11/11/2019
  */
 
 using System.Collections;
@@ -138,9 +138,20 @@ public class FlyingEnemyMovement : MonoBehaviour
 
 				// if the enemy is currently rotating to face towards its target
 				case MoveStep.rotatingTowardsTarget:
+
+					// determine which direction will be enemy's up once it finishes rotating
+					Vector3 yAxis = Vector3.zero;
+					if (m_originRotation.eulerAngles.y > 0.0f && m_targetDirection.x > -0.1f && m_targetDirection.x < 0.1f)
+					{
+						yAxis = Vector3.Cross(m_targetDirection, ((m_targetDirection.x >= 0.0f) ? 1 : -1) * Vector3.forward);
+					}
+					else
+					{
+						yAxis = Vector3.Cross(m_targetDirection, ((m_targetDirection.x >= 0.0f) ? -1 : 1) * Vector3.forward);
+					}
+
 					// rotate towards the target direction
 					m_pitchTimer += Time.deltaTime * m_pitchRotationSpeed;
-					Vector3 yAxis = Vector3.Cross(m_targetDirection, ((m_targetDirection.x >= 0.0f) ? -1 : 1) * Vector3.forward);
 					transform.rotation = Quaternion.Lerp(m_originRotation, Quaternion.LookRotation(m_targetDirection, yAxis) * Quaternion.Euler(0, -90, 0), m_pitchTimer);
 
 					// if the enemy has rotated enough to reach its target direction
