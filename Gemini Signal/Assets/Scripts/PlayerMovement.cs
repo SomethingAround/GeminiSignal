@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 	public float m_airSpeed = 0.1f;
 	public float m_maxSpeed = 5.0f;
 	public float m_minWallDistance = 0.8f;
+	public float m_minimumMaxAirSpeed = 0.1f;
 
 	float m_currentSpeed = 0.0f;
 	float m_translation = 0.0f;
@@ -81,10 +82,12 @@ public class PlayerMovement : MonoBehaviour
 			if (m_moveVelocity.x > 0)
 			{
 				m_rayPosition.x = m_playerDimensions.x + m_minWallDistance;
+				gameObject.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 			}
 			else if (m_moveVelocity.x < 0)
 			{
 				m_rayPosition.x = -m_playerDimensions.x - m_minWallDistance;
+				gameObject.transform.rotation = new Quaternion(0.0f, 180.0f, 0.0f, 1.0f);
 			}
 
 			//Increases velocity by the move velocity
@@ -108,7 +111,11 @@ public class PlayerMovement : MonoBehaviour
 			if (m_playJump.m_inAir)
 			{
 				m_currentSpeed = m_airSpeed;
-
+				//Sets the aerialMaxSpeed to the minimum
+				if (m_aerialMaxSpeed < m_minimumMaxAirSpeed)
+				{
+					m_aerialMaxSpeed = m_minimumMaxAirSpeed;
+				}
 				//Checks if x velocity is greater than max speed
 				if (Mathf.Abs(m_rb2d.velocity.x) > m_aerialMaxSpeed)
 				{
@@ -122,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
 			else
 			{
 				m_currentSpeed = m_groundSpeed;
-
+				
 				// determine what the max aerial speed would be for if the player were to fall of a platform without jumping
 				m_aerialMaxSpeed = Mathf.Abs(m_rb2d.velocity.x);
 			}
@@ -138,5 +145,7 @@ public class PlayerMovement : MonoBehaviour
 				m_rb2d.velocity = m_wallHit;
 			}
 		}
+		print(m_moveVelocity.x);
+		//print(m_direction);
 	}
 }
