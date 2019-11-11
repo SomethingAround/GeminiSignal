@@ -5,10 +5,10 @@ using XboxCtrlrInput;
 
 /*
  * File Name: PlayerJump.cs
- * Author: Connor Li, Michael Sweetman
+ * Author: Connor Li
  * Description: Manages the player's jump
  * Creation Date: 07/10/2019
- * Last Modified: 04/11/2019
+ * Last Modified: 12/11/2019
  */
 
 public class PlayerJump : MonoBehaviour
@@ -95,8 +95,19 @@ public class PlayerJump : MonoBehaviour
 			//Store previous jump velocity
 			m_jumpVelocity = m_rb2d.velocity.y;
 			
+			if (gameObject.transform.rotation.eulerAngles.y > 90.0f)
+			{
+				m_rayPosition.x = (m_playerDimensions.x / 2) - m_rayOffset;
+			}
+			else
+			{
+				m_rayPosition.x = -(m_playerDimensions.x / 2) + m_rayOffset;
+			}
+
 			// draw a raycast below the player
 			m_rayH2D = Physics2D.Raycast(gameObject.transform.position + m_rayPosition, gameObject.transform.right, m_playerDimensions.x - m_rayOffset);
+
+			//Debug.DrawRay(gameObject.transform.position + m_rayPosition, gameObject.transform.right);
 
 			// if the raycast collides with a platform, the player is touching the ground
 			if (m_rayH2D.collider != null && m_rayH2D.collider.gameObject.tag == "Platform")

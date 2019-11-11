@@ -8,7 +8,7 @@ using XboxCtrlrInput;
  * Author: Connor Li
  * Description: Manages the player's movement
  * Creation Date: 08/10/2019
- * Last Modified: 11/11/2019
+ * Last Modified: 12/11/2019
  */
 
 public class PlayerMovement : MonoBehaviour
@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
 	float m_aerialMaxSpeed = 0.0f;
 	float m_direction = 0.0f;
 	float m_yRayOffset = 0.05f;
+	float m_inputThreshold = 0.01f;
 
 	[HideInInspector]
 	public Vector3 m_startPosition = Vector3.zero;
@@ -57,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
 
 		m_playerDimensions = gameObject.GetComponent<BoxCollider2D>().size;
 
-		m_rayPosition = new Vector3(0.0f, m_yRayOffset, 0.0f);
+		m_rayPosition = new Vector3(m_playerDimensions.x + m_minWallDistance, m_yRayOffset, 0.0f);
 
 		m_rb2d = gameObject.GetComponent<Rigidbody2D>();
 
@@ -75,11 +76,11 @@ public class PlayerMovement : MonoBehaviour
 		if (m_cameraMovement.m_playerAlive)
 		{
 			m_direction = 0.0f;
-			if (Input.GetAxis("Horizontal") > 0.01f)
+			if (Input.GetAxis("Horizontal") > m_inputThreshold)
 			{
 				m_direction = 1.0f;
 			}
-			else if (Input.GetAxis("Horizontal") < -0.01f)
+			else if (Input.GetAxis("Horizontal") < -m_inputThreshold)
 			{
 				m_direction = -1.0f;
 			}
@@ -90,11 +91,11 @@ public class PlayerMovement : MonoBehaviour
 			m_moveVelocity.x = m_translation;
 
 			//Sets ray position to the left or right side of player
-			if (m_moveVelocity.x > 0)
+			if (m_moveVelocity.x > 0 && m_rayPosition.x < 0.0f)
 			{
 				m_rayPosition.x = m_playerDimensions.x + m_minWallDistance;
 			}
-			else if (m_moveVelocity.x < 0)
+			else if (m_moveVelocity.x < 0 && m_rayPosition.x > 0.0f)
 			{
 				m_rayPosition.x = -m_playerDimensions.x - m_minWallDistance;
 			}
@@ -165,8 +166,5 @@ public class PlayerMovement : MonoBehaviour
 				m_rb2d.velocity = m_wallHit;
 			}
 		}
-		//print(m_moveVelocity.x);
-		//print(m_direction);
-		print("vel: " + m_rb2d.velocity.x + "\tdir: " + m_direction + "\tmaxair:" + m_aerialMaxSpeed);
 	}
 }
