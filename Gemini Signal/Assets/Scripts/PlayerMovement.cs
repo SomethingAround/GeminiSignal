@@ -61,8 +61,6 @@ public class PlayerMovement : MonoBehaviour
 
 		m_rb2d = gameObject.GetComponent<Rigidbody2D>();
 
-		m_rb2d.interpolation = RigidbodyInterpolation2D.Interpolate;
-
 		m_playJump = gameObject.GetComponent<PlayerJump>();
 
 		m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
@@ -76,7 +74,16 @@ public class PlayerMovement : MonoBehaviour
 		// if the player is alive
 		if (m_cameraMovement.m_playerAlive)
 		{
-			m_direction = Input.GetAxis("Horizontal");
+			m_direction = 0.0f;
+			if (Input.GetAxis("Horizontal") > 0.01f)
+			{
+				m_direction = 1.0f;
+			}
+			else if (Input.GetAxis("Horizontal") < -0.01f)
+			{
+				m_direction = -1.0f;
+			}
+
 			//Sets m_translation to - or + move speed
 			m_translation = m_direction * m_currentSpeed;
 			//Sets moveVelocity's x to m_translation
@@ -86,12 +93,10 @@ public class PlayerMovement : MonoBehaviour
 			if (m_moveVelocity.x > 0)
 			{
 				m_rayPosition.x = m_playerDimensions.x + m_minWallDistance;
-				gameObject.transform.rotation = m_right;
 			}
 			else if (m_moveVelocity.x < 0)
 			{
 				m_rayPosition.x = -m_playerDimensions.x - m_minWallDistance;
-				gameObject.transform.rotation = m_left;
 			}
 
 			//Increases velocity by the move velocity
@@ -107,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
 			if (m_rb2d.velocity.x > m_maxSpeed || m_rb2d.velocity.x < -m_maxSpeed)
 			{
 				// set the player's speed to the max speed of the direction it is moving
-				m_maxVelocity.Set(m_direction * m_maxSpeed, m_rb2d.velocity.y);
+				m_maxVelocity.Set(((m_rb2d.velocity.x >= 0) ? 1 : -1) * m_maxSpeed, m_rb2d.velocity.y);
 				m_rb2d.velocity = m_maxVelocity;
 			}
 
@@ -138,8 +143,19 @@ public class PlayerMovement : MonoBehaviour
 				m_aerialMaxSpeed = Mathf.Abs(m_rb2d.velocity.x);
 			}
 
+			if (m_rb2d.velocity.x > 0.0f && gameObject.transform.rotation.eulerAngles.y > 90.0f)
+			{
+				gameObject.transform.rotation = m_right;
+			}
+			else if (m_rb2d.velocity.x < 0.0f && gameObject.transform.rotation.eulerAngles.y < 90.0f)
+			{
+				gameObject.transform.rotation = m_left;
+			}
+
 			// draw a raycast adjacent to the player, in the direction they are moving
 			m_rayRH2D = Physics2D.Raycast(gameObject.transform.position + m_rayPosition, gameObject.transform.up, m_playerDimensions.y - m_yRayOffset);
+
+			//Debug.DrawRay(gameObject.transform.position + m_rayPosition, gameObject.transform.up, Color.magenta);
 
 			// if the raycast collides with a platform, the player is hitting a wall
 			if (m_rayRH2D.collider != null && m_rayRH2D.collider.gameObject.tag == "Platform")
@@ -149,7 +165,8 @@ public class PlayerMovement : MonoBehaviour
 				m_rb2d.velocity = m_wallHit;
 			}
 		}
-		print(m_moveVelocity.x);
+		//print(m_moveVelocity.x);
 		//print(m_direction);
+		print("vel: " + m_rb2d.velocity.x + "\tdir: " + m_direction + "\tmaxair:" + m_aerialMaxSpeed);
 	}
 }
