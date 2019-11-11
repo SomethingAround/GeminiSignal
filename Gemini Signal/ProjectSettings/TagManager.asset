@@ -8,6 +8,11 @@ TagManager:
   - Continue Button
   - Main Menu Button
   - Platform
+  - VictoryScreen
+  - MainMenu
+  - SwapBar
+  - Goal
+  - PauseMenu
   layers:
   - Default
   - TransparentFX

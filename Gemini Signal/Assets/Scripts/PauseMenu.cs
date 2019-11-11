@@ -14,12 +14,15 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public Canvas pauseMenu;
+    private GameObject m_pauseMenu;
+    private GameObject m_swapBar;
     public void Start()
     {
         Time.timeScale = 1;
-        pauseMenu = GetComponent<Canvas>();
-        pauseMenu.enabled = false;
+        m_pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
+        m_pauseMenu.SetActive(false);
+        m_swapBar = GameObject.FindGameObjectWithTag("SwapBar");
+
     }
 
     /*
@@ -38,7 +41,8 @@ public class PauseMenu : MonoBehaviour
             if (Time.timeScale == 1)
             {
                 Time.timeScale = 0;
-                pauseMenu.enabled = true;
+                m_pauseMenu.SetActive(true);
+                m_swapBar.SetActive(false);
             }
             /*
              * Brief: Game is unpaused and the Pause Menu is hidden 
@@ -46,10 +50,31 @@ public class PauseMenu : MonoBehaviour
             else if (Time.timeScale == 0)
             {
                 Time.timeScale = 1;
-                pauseMenu.enabled = false;
+                m_pauseMenu.SetActive(false);
             }
 
         }
+    }
+
+    /*
+     * Brief: Continues the game
+    */
+    public void Continue()
+    {
+        //SceneManager.LoadSceneAsync("GameLevel", LoadSceneMode.Single);
+        Time.timeScale = 1;
+        m_pauseMenu.SetActive(false);
+        m_swapBar.SetActive(true);
+
+    }
+
+    /*
+     * Breif: Load the Main Menu
+    */
+    public void MainMenu()
+    {
+        //Goes to the Main Menu
+        SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Single);
     }
 
     /*
@@ -60,23 +85,5 @@ public class PauseMenu : MonoBehaviour
         //Quits the game
         Application.Quit();
         Debug.Log("Exiting game");
-    }
-    /*
-     * Brief: Continues the game
-    */
-    public void Continue()
-    {
-        //SceneManager.LoadSceneAsync("GameLevel", LoadSceneMode.Single);
-        Time.timeScale = 1;
-        pauseMenu.enabled = false;
-    }
-
-    /*
-     * Breif: Load the Main Menu
-    */
-    public void MainMenu()
-    {
-        //Goes to the Main Menu
-        SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Single);
     }
 }
