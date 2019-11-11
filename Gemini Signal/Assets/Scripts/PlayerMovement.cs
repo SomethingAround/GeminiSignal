@@ -5,10 +5,10 @@ using XboxCtrlrInput;
 
 /*
  * File Name: PlayerMovement.cs
- * Author: Connor Li, Michael Sweetman
+ * Author: Connor Li
  * Description: Manages the player's movement
  * Creation Date: 08/10/2019
- * Last Modified: 29/10/2019
+ * Last Modified: 11/11/2019
  */
 
 public class PlayerMovement : MonoBehaviour
@@ -32,6 +32,10 @@ public class PlayerMovement : MonoBehaviour
 	Vector2 m_wallHit = Vector2.zero;
 
 	Vector3 m_rayPosition = Vector3.zero;
+
+	Quaternion m_right = Quaternion.Euler(0, 0, 0);
+
+	Quaternion m_left = Quaternion.Euler(0, 180, 0);
 
 	Rigidbody2D m_rb2d;
 
@@ -82,12 +86,12 @@ public class PlayerMovement : MonoBehaviour
 			if (m_moveVelocity.x > 0)
 			{
 				m_rayPosition.x = m_playerDimensions.x + m_minWallDistance;
-				gameObject.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+				gameObject.transform.rotation = m_right;
 			}
 			else if (m_moveVelocity.x < 0)
 			{
 				m_rayPosition.x = -m_playerDimensions.x - m_minWallDistance;
-				gameObject.transform.rotation = new Quaternion(0.0f, 180.0f, 0.0f, 1.0f);
+				gameObject.transform.rotation = m_left;
 			}
 
 			//Increases velocity by the move velocity
