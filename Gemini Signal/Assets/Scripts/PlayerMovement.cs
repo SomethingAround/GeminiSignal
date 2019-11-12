@@ -20,7 +20,6 @@ public class PlayerMovement : MonoBehaviour
 	public float m_minimumMaxAirSpeed = 0.1f;
 
 	float m_currentSpeed = 0.0f;
-	float m_translation = 0.0f;
 	float m_aerialMaxSpeed = 0.0f;
 	float m_direction = 0.0f;
 	float m_yRayOffset = 0.05f;
@@ -76,19 +75,17 @@ public class PlayerMovement : MonoBehaviour
 		if (m_cameraMovement.m_playerAlive)
 		{
 			m_direction = 0.0f;
-			if (Input.GetAxis("Horizontal") > m_inputThreshold)
+			if (Input.GetAxis("Horizontal") > m_inputThreshold || XCI.GetDPad(XboxDPad.Right))
 			{
 				m_direction = 1.0f;
 			}
-			else if (Input.GetAxis("Horizontal") < -m_inputThreshold)
+			else if (Input.GetAxis("Horizontal") < -m_inputThreshold || XCI.GetDPad(XboxDPad.Left))
 			{
 				m_direction = -1.0f;
 			}
 
-			//Sets m_translation to - or + move speed
-			m_translation = m_direction * m_currentSpeed;
-			//Sets moveVelocity's x to m_translation
-			m_moveVelocity.x = m_translation;
+			//Sets moveVelocity's x to - or + move speed
+			m_moveVelocity.x = m_direction * m_currentSpeed;
 
 			//Sets ray position to the left or right side of player
 			if (m_moveVelocity.x > 0 && m_rayPosition.x < 0.0f)
