@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XboxCtrlrInput;
 
 /*
  * File Name: PlayerSwap.cs
@@ -29,7 +30,7 @@ public class PlayerSwap : MonoBehaviour
 	 */
 	void Start()
     {
-		m_shader = gameObject.GetComponent<Renderer>().material;  
+		m_shader = gameObject.GetComponent<Renderer>().materials[1];  
     }
 
 	/* 
@@ -38,7 +39,7 @@ public class PlayerSwap : MonoBehaviour
 	void Update()
     {
 		// if the swap button is pressed, start phasing
-		if (Input.GetButtonDown("Swap") && !m_isPhasing)
+		if ((Input.GetButtonDown("Swap") || XCI.GetButtonDown(XboxButton.X)) && !m_isPhasing)
 		{
 			// set m_isPhasing to true so the phase animation begins
 			m_isPhasing = true;

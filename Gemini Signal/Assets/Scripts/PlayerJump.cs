@@ -61,13 +61,13 @@ public class PlayerJump : MonoBehaviour
 		if (m_cameraMovement.m_playerAlive)
 		{
 			// If the jump button goes down and the player is not in the air, jump
-			if (Input.GetButtonDown("Jump") && m_jumpTimer == 0.0f && !m_inAir)
+			if ((Input.GetButtonDown("Jump") || XCI.GetButtonDown(XboxButton.A)) && m_jumpTimer == 0.0f && !m_inAir)
 			{
 				m_rb2d.AddForce(m_jumpForcev2, ForceMode2D.Impulse);
 				m_jumpTimer += Time.deltaTime;
 			}
 			// If the jump key or button is let go, stop jumping
-			else if (Input.GetButtonUp("Jump"))
+			else if (Input.GetButtonUp("Jump") || XCI.GetButtonUp(XboxButton.A))
 			{
 				//Checks if the player is in the air
 				if (m_inAir)
@@ -81,7 +81,7 @@ public class PlayerJump : MonoBehaviour
 				}
 			}
 			//If jump key or button is held maintain velocity and increase timer
-			else if (Input.GetButton("Jump") && m_jumpTimer < m_maxJumpTime)
+			else if ((Input.GetButton("Jump") || XCI.GetButton(XboxButton.A)) && m_jumpTimer < m_maxJumpTime)
 			{
 				//Checks if player is in the air
 				if (m_inAir)

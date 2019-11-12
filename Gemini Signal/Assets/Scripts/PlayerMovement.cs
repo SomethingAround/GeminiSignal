@@ -101,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
 			m_rb2d.velocity += m_moveVelocity;
 
 			//If jump is pressed set max aerial speed to current x velocity
-			if (Input.GetButtonDown("Jump"))
+			if (Input.GetButtonDown("Jump") || XCI.GetButtonDown(XboxButton.A))
 			{
 				m_aerialMaxSpeed = Mathf.Abs(m_rb2d.velocity.x);
 			}
