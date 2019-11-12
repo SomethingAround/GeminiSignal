@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of walking enemies
  * Creation Date: 08/10/2019
- * Last Modified: 6/11/2019
+ * Last Modified: 12/11/2019
  */
 
 using System.Collections;
@@ -14,15 +14,15 @@ public class WalkingEnemyMovement : MonoBehaviour
 {
 	float m_startXPosition;
 	float m_targetXPosition;
-	
+
+	Vector3 m_movement = Vector3.zero;
 	float m_moveThreshold = 0.1f;
 	float m_rotationThreshold = 0.05f;
 
-	Vector3 m_faceLeft = new Vector3(-1.0f, 0.0f, 0.0f);
-	Vector3 m_faceRight = new Vector3(1.0f, 0.0f, 0.0f);
-
 	bool m_turning = true;
 	Transform m_fieldOfView;
+
+	Animator m_animator;
 
 	public float m_endXPosition = 10;
 	public float m_moveSpeed = 3;
@@ -42,6 +42,11 @@ public class WalkingEnemyMovement : MonoBehaviour
 		{
 			m_fieldOfView = gameObject.transform.GetChild(0);
 		}
+
+		// store the enemy's animator
+		m_animator = gameObject.GetComponent<Animator>();
+
+		m_movement.x = m_moveSpeed;
     }
 
 	/*
@@ -52,6 +57,15 @@ public class WalkingEnemyMovement : MonoBehaviour
 		// if the enemy is turning, rotate towards the target
 		if (m_turning)
 		{
+			//if (m_animator.GetFloat("Blend") < 1.0f)
+			//{
+			//	m_animator.SetFloat("Blend", m_animator.GetFloat("Blend") + Time.deltaTime);
+			//}
+			//else
+			//{
+			//	m_animator.SetFloat("Blend", 1.0f);
+			//}
+
 			// if the target is to the right
 			if (m_targetXPosition > gameObject.transform.position.x)
 			{
@@ -61,10 +75,14 @@ public class WalkingEnemyMovement : MonoBehaviour
 				// if the enemy has rotated so they are facing right, stop turning and show the field of view
 				if (gameObject.transform.right.x > 1.0f - m_rotationThreshold)
 				{
-					gameObject.transform.right = m_faceRight;
+					// make the enemy face directly right
+					gameObject.transform.right = Vector3.right;
 					
+					// stop turning
 					m_turning = false;
+					m_animator.SetBool("Turning", m_turning);
 
+					// activate the field of view
 					if (m_fieldOfView != null)
 					{
 						m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
@@ -81,9 +99,14 @@ public class WalkingEnemyMovement : MonoBehaviour
 				// if the enemy has rotated so they are facing left, stop turning and show the field of view
 				if (gameObject.transform.right.x < -1.0f + m_rotationThreshold)
 				{
-					gameObject.transform.right = m_faceLeft;
-					m_turning = false;
+					// make the enemy face directly left
+					gameObject.transform.right = Vector3.left;
 
+					// start turning
+					m_turning = false;
+					m_animator.SetBool("Turning", m_turning);
+
+					// deactivate the field of view
 					if (m_fieldOfView != null)
 					{
 						m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
@@ -95,15 +118,24 @@ public class WalkingEnemyMovement : MonoBehaviour
 		// if the enemy is moving, move towards the target location
 		else
 		{
+			//if (m_animator.GetFloat("Blend") > 0.0f)
+			//{
+			//	m_animator.SetFloat("Blend", m_animator.GetFloat("Blend") - Time.deltaTime);
+			//}
+			//else
+			//{
+			//	m_animator.SetFloat("Blend", 0.0f);
+			//}
+
 			// if the target is to the right, move the enemy right
 			if (m_targetXPosition > gameObject.transform.position.x)
 			{
-				gameObject.transform.position += new Vector3(m_moveSpeed, 0.0f, 0.0f) * Time.deltaTime;
+				gameObject.transform.position += m_movement * Time.deltaTime;
 			}
 			// if the target is to the left, move the enemy left
 			else
 			{
-				gameObject.transform.position += new Vector3(-m_moveSpeed, 0.0f, 0.0f) * Time.deltaTime;
+				gameObject.transform.position -= m_movement * Time.deltaTime;
 			}
 		
 			// if the enemy has reached its target, change target, hide the field of view and start turning
@@ -111,6 +143,7 @@ public class WalkingEnemyMovement : MonoBehaviour
 			{
 				m_targetXPosition = (m_targetXPosition == m_endXPosition) ? m_startXPosition : m_endXPosition;
 				m_turning = true;
+				m_animator.SetBool("Turning", m_turning);
 
 				if (m_fieldOfView != null)
 				{
