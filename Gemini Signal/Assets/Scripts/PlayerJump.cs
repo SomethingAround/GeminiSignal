@@ -8,7 +8,7 @@ using XboxCtrlrInput;
  * Author: Connor Li
  * Description: Manages the player's jump
  * Creation Date: 07/10/2019
- * Last Modified: 12/11/2019
+ * Last Modified: 18/11/2019
  */
 
 public class PlayerJump : MonoBehaviour
@@ -16,9 +16,15 @@ public class PlayerJump : MonoBehaviour
 	public float m_jumpForce = 5.0f;
 	public float m_maxJumpTime = 0.1f;
 	public float m_jumpAcceleration = 0.5f;
+	public float m_airDrag = 0.0f;
 	public float m_groundDrag = 6.0f;
+	public float m_maxLandDrag = 40.0f;
+	public float m_recoveryTime = 0.5f;
+	float m_landDrag = 0.0f;
+	float m_recoveryTimer = 0.0f;
 	float m_jumpTimer = 0.0f;
     float m_rayOffset = 0.05f;
+	float m_maxHorizontalSpeed = 5.0f;
 
     [HideInInspector]
 	public bool m_inAir = false;
@@ -50,6 +56,8 @@ public class PlayerJump : MonoBehaviour
 		m_rb2d.drag = m_groundDrag;
 
 		m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
+
+		m_maxHorizontalSpeed = gameObject.GetComponent<PlayerMovement>().m_maxSpeed;
 	}
 
     /*
@@ -60,6 +68,12 @@ public class PlayerJump : MonoBehaviour
 		// if the player is alive
 		if (m_cameraMovement.m_playerAlive)
 		{
+			if (m_rb2d.drag > m_groundDrag)
+			{
+				m_recoveryTimer += Time.deltaTime;
+				m_rb2d.drag = Mathf.Lerp(m_landDrag, m_groundDrag, m_recoveryTimer / m_recoveryTime);
+			}
+
 			// If the jump button goes down and the player is not in the air, jump
 			if ((Input.GetButtonDown("Jump") || XCI.GetButtonDown(XboxButton.A)) && m_jumpTimer == 0.0f && !m_inAir)
 			{
@@ -113,15 +127,22 @@ public class PlayerJump : MonoBehaviour
 			if (m_rayH2D.collider != null && m_rayH2D.collider.gameObject.tag == "Platform")
 			{
 				m_inAir = false;
-				m_rb2d.drag = m_groundDrag;
 				m_jumpTimer = 0.0f;
+
+				if (m_rb2d.drag == m_airDrag)
+				{
+					m_landDrag = Mathf.Lerp(m_maxLandDrag, m_groundDrag, (Mathf.Abs(m_rb2d.velocity.x) / m_maxHorizontalSpeed));
+					m_rb2d.drag = m_landDrag;
+					m_recoveryTimer = 0.0f;
+				}
 			}
 			// if the raycast does not collide with a platform, the player is in the air
 			else
 			{
 				m_inAir = true;
-				m_rb2d.drag = 0.0f;
+				m_rb2d.drag = m_airDrag;
 			}
 		}
+		print(m_rb2d.velocity.x);
     }
 }
