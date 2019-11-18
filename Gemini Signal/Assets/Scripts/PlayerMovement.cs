@@ -8,22 +8,28 @@ using XboxCtrlrInput;
  * Author: Connor Li
  * Description: Manages the player's movement
  * Creation Date: 08/10/2019
- * Last Modified: 12/11/2019
+ * Last Modified: 18/11/2019
  */
 
 public class PlayerMovement : MonoBehaviour
 {
-	public float m_groundSpeed = 2.0f;
-	public float m_airSpeed = 0.1f;
+	public float m_groundAcceleration = 2.0f;
+	public float m_airAcceleration = 0.1f;
 	public float m_maxSpeed = 5.0f;
 	public float m_minWallDistance = 0.8f;
 	public float m_minimumMaxAirSpeed = 0.1f;
+	public float m_recoveryTime = 1.0f;
+	[HideInInspector]
+	public float m_currentAcceleration = 0.0f;
 
-	float m_currentSpeed = 0.0f;
 	float m_aerialMaxSpeed = 0.0f;
 	float m_direction = 0.0f;
 	float m_yRayOffset = 0.05f;
 	float m_inputThreshold = 0.01f;
+	float m_landedAccelerationTimer = 0.0f;
+
+	[HideInInspector]
+	public bool m_landed = false;
 
 	[HideInInspector]
 	public Vector3 m_startPosition = Vector3.zero;
@@ -43,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
 
 	CameraMovement m_cameraMovement;
 
+	Animator m_animator;
+
 	RaycastHit2D m_rayRH2D;
 	Vector2 m_playerDimensions = Vector2.zero;
 
@@ -51,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 	 */
 	void Start()
     {
-		m_currentSpeed = m_groundSpeed;
+		m_currentAcceleration = m_groundAcceleration;
 
 		m_startPosition = gameObject.transform.position;
 
@@ -64,6 +72,8 @@ public class PlayerMovement : MonoBehaviour
 		m_playJump = gameObject.GetComponent<PlayerJump>();
 
 		m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
+
+		m_animator = gameObject.GetComponent<Animator>();
 	}
 
 	/* 
@@ -71,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
 	 */
 	void Update()
     {
+		
 		// if the player is alive
 		if (m_cameraMovement.m_playerAlive)
 		{
@@ -85,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
 			}
 
 			//Sets moveVelocity's x to - or + move speed
-			m_moveVelocity.x = m_direction * m_currentSpeed;
+			m_moveVelocity.x = m_direction * m_currentAcceleration;
 
 			//Sets ray position to the left or right side of player
 			if (m_moveVelocity.x > 0 && m_rayPosition.x < 0.0f)
@@ -117,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
 			//Checks if the player is in the air
 			if (m_playJump.m_inAir)
 			{
-				m_currentSpeed = m_airSpeed;
+				m_currentAcceleration = m_airAcceleration;
 				//Sets the aerialMaxSpeed to the minimum
 				if (m_aerialMaxSpeed < m_minimumMaxAirSpeed)
 				{
@@ -135,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
 			//Resets current speed back to ground speed
 			else
 			{
-				m_currentSpeed = m_groundSpeed;
+				m_currentAcceleration = m_groundAcceleration;
 				
 				// determine what the max aerial speed would be for if the player were to fall of a platform without jumping
 				m_aerialMaxSpeed = Mathf.Abs(m_rb2d.velocity.x);
@@ -143,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
 
 			if (m_rb2d.velocity.x > 0.0f && gameObject.transform.rotation.eulerAngles.y > 90.0f)
 			{
-				gameObject.transform.rotation = m_right;
+				gameObject.transform.rotation =  m_right;
 			}
 			else if (m_rb2d.velocity.x < 0.0f && gameObject.transform.rotation.eulerAngles.y < 90.0f)
 			{
@@ -162,6 +173,7 @@ public class PlayerMovement : MonoBehaviour
 				m_wallHit.y = m_rb2d.velocity.y;
 				m_rb2d.velocity = m_wallHit;
 			}
+			m_animator.SetFloat("Blend", Mathf.Round(m_rb2d.velocity.x * 1000f) / 1000f);
 		}
 	}
 }

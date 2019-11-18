@@ -8,7 +8,7 @@ using XboxCtrlrInput;
  * Author: Connor Li, Michael Sweetman
  * Description: Manages the swapping of the player
  * Creation Date: 14/10/2019
- * Last Modified: 04/11/2019
+ * Last Modified: 12/11/2019
  */
 
 public class PlayerSwap : MonoBehaviour
