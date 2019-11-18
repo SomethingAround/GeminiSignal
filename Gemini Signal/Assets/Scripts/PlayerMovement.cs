@@ -8,7 +8,7 @@ using XboxCtrlrInput;
  * Author: Connor Li
  * Description: Manages the player's movement
  * Creation Date: 08/10/2019
- * Last Modified: 18/11/2019
+ * Last Modified: 19/11/2019
  */
 
 public class PlayerMovement : MonoBehaviour
@@ -173,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
 				m_wallHit.y = m_rb2d.velocity.y;
 				m_rb2d.velocity = m_wallHit;
 			}
-			m_animator.SetFloat("Blend", Mathf.Round(m_rb2d.velocity.x * 1000f) / 1000f);
 		}
+			m_animator.SetFloat("Blend", Mathf.Round(m_rb2d.velocity.x * 1000f) / 1000f);
 	}
 }
