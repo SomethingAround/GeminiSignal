@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of flying enemies
  * Creation Date: 07/10/2019
- * Last Modified: 11/11/2019
+ * Last Modified: 18/11/2019
  */
 
 using System.Collections;
@@ -29,8 +29,6 @@ public class FlyingEnemyMovement : MonoBehaviour
 	float m_pitchTimer = 0.0f;
 	Quaternion m_originRotation;
 
-	Transform m_fieldOfView;
-
 	/*
 	 * Brief: a structure that stores whether the enemy's yaw needs to be rotated and the amount that the enemy is to move
 	 */
@@ -44,8 +42,9 @@ public class FlyingEnemyMovement : MonoBehaviour
 	public float m_moveSpeed = 3;
 	public float m_pitchRotationSpeed = 3;
 	public float m_yawRotationSpeed = 6;
+	public GameObject m_model;
+	public GameObject m_fieldOfView;
 	public List<Movement> m_movements;
-
 
 	void Start()
 	{
@@ -67,12 +66,6 @@ public class FlyingEnemyMovement : MonoBehaviour
 			m_targetDirection = m_targetPosition - transform.position;
 			m_targetDirection.Normalize();
 			m_currentMoveStep = MoveStep.rotatingTowardsTarget;
-		}
-
-		// if the enemy has a child, store it as its field of view
-		if (transform.childCount > 0)
-		{
-			m_fieldOfView = transform.GetChild(0);
 		}
 	}
 
@@ -206,6 +199,5 @@ public class FlyingEnemyMovement : MonoBehaviour
 					break;
 			}
 		}
-		print(m_targetIndex);
 	}
 }

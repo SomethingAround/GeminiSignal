@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of walking enemies
  * Creation Date: 08/10/2019
- * Last Modified: 12/11/2019
+ * Last Modified: 18/11/2019
  */
 
 using System.Collections;
@@ -20,13 +20,14 @@ public class WalkingEnemyMovement : MonoBehaviour
 	float m_rotationThreshold = 0.05f;
 
 	bool m_turning = true;
-	Transform m_fieldOfView;
 
 	Animator m_animator;
 
 	public float m_endXPosition = 10;
 	public float m_moveSpeed = 3;
 	public float m_rotationSpeed = 3;
+	public GameObject m_model;
+	public GameObject m_fieldOfView;
 
 	/*
 	 * Brief: Initialisation for the enemy
@@ -37,15 +38,10 @@ public class WalkingEnemyMovement : MonoBehaviour
 		m_startXPosition = gameObject.transform.position.x;
 		m_targetXPosition = m_endXPosition;
 
-		// if the enemy has a child object, store it as the field of view so it can be hidden when turning
-		if (gameObject.transform.childCount >= 0)
-		{
-			m_fieldOfView = gameObject.transform.GetChild(0);
-		}
-
 		// store the enemy's animator
 		m_animator = gameObject.GetComponent<Animator>();
 
+		// store the amount the enemy will move in a Vector3
 		m_movement.x = m_moveSpeed;
     }
 
@@ -70,17 +66,13 @@ public class WalkingEnemyMovement : MonoBehaviour
 			if (m_targetXPosition > gameObject.transform.position.x)
 			{
 				// rotate clockwise
-				gameObject.transform.Rotate(gameObject.transform.up, -m_rotationSpeed);
+				m_model.transform.Rotate(gameObject.transform.up, -m_rotationSpeed);
 
 				// if the enemy has rotated so they are facing right, stop turning and show the field of view
-				if (gameObject.transform.right.x > 1.0f - m_rotationThreshold)
+				if (m_model.transform.right.x > 1.0f - m_rotationThreshold)
 				{
 					// make the enemy face directly right
-					gameObject.transform.right = Vector3.right;
-					
-					// stop turning
-					m_turning = false;
-					m_animator.SetBool("Turning", m_turning);
+					m_model.transform.right = Vector3.right;
 
 					// activate the field of view
 					if (m_fieldOfView != null)
@@ -88,30 +80,34 @@ public class WalkingEnemyMovement : MonoBehaviour
 						m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
 						m_fieldOfView.GetComponent<Collider2D>().enabled = true;
 					}
+
+					// stop turning
+					m_turning = false;
+					m_animator.SetBool("Turning", m_turning);
 				}
 			}
 			// if the target is to the left
 			else
 			{
 				// rotate anti-clockwise
-				gameObject.transform.Rotate(gameObject.transform.up, m_rotationSpeed);
+				m_model.transform.Rotate(gameObject.transform.up, m_rotationSpeed);
 
 				// if the enemy has rotated so they are facing left, stop turning and show the field of view
-				if (gameObject.transform.right.x < -1.0f + m_rotationThreshold)
+				if (m_model.transform.right.x < -1.0f + m_rotationThreshold)
 				{
 					// make the enemy face directly left
-					gameObject.transform.right = Vector3.left;
+					m_model.transform.right = Vector3.left;
 
-					// start turning
-					m_turning = false;
-					m_animator.SetBool("Turning", m_turning);
-
-					// deactivate the field of view
+					// activate the field of view
 					if (m_fieldOfView != null)
 					{
 						m_fieldOfView.GetComponent<MeshRenderer>().enabled = true;
 						m_fieldOfView.GetComponent<Collider2D>().enabled = true;
 					}
+
+					// stop turning
+					m_turning = false;
+					m_animator.SetBool("Turning", m_turning);
 				}
 			}
 		}
@@ -141,15 +137,19 @@ public class WalkingEnemyMovement : MonoBehaviour
 			// if the enemy has reached its target, change target, hide the field of view and start turning
 			if (Mathf.Abs(gameObject.transform.position.x - m_targetXPosition) < m_moveThreshold)
 			{
+				// determine next target position
 				m_targetXPosition = (m_targetXPosition == m_endXPosition) ? m_startXPosition : m_endXPosition;
-				m_turning = true;
-				m_animator.SetBool("Turning", m_turning);
 
+				// deactivate field of view
 				if (m_fieldOfView != null)
 				{
 					m_fieldOfView.GetComponent<MeshRenderer>().enabled = false;
 					m_fieldOfView.GetComponent<Collider2D>().enabled = false;
 				}
+
+				// start turning
+				m_turning = true;
+				m_animator.SetBool("Turning", m_turning);
 			}
 		}
 	}
