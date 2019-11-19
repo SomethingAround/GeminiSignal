@@ -4,10 +4,10 @@ using UnityEngine;
 
 /*
  * File Name: SwapBar
- * Author: Steven Pham, Michael Sweetman
+ * Author: Steven Pham
  * Description: to display the time they have till they are forced to switch
  * Creation Date: 8/10/2019
- * Last Modified: 04/11/2019
+ * Last Modified: 19/11/2019
  */
 
 public class SwapBar : MonoBehaviour
@@ -26,7 +26,7 @@ public class SwapBar : MonoBehaviour
 	void Start()
     {
 		// store player's swap script and scale of the bar
-		m_playerSwap = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerSwap>();
+		m_playerSwap = GameObject.FindGameObjectWithTag("Swap").GetComponent<PlayerSwap>();
 		m_scale = gameObject.GetComponent<RectTransform>().localScale;
 	}
 
