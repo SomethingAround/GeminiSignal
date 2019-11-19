@@ -51,18 +51,26 @@ public class WalkingEnemyMovement : MonoBehaviour
 	*/
 	void Update()
     {
-		m_animationBlend = m_animator.GetFloat("Blend");
+		// get the blend value from the animator
+		if (m_animator != null)
+		{
+			m_animationBlend = m_animator.GetFloat("Blend");
+		}
 
 		// if the enemy is turning, rotate towards the target
 		if (m_turning)
 		{
-			if (m_animationBlend < 1.0f)
+			// switch to the turning animation
+			if (m_animator != null)
 			{
-				m_animator.SetFloat("Blend", m_animationBlend + Time.deltaTime);
-			}
-			else
-			{
-				m_animator.SetFloat("Blend", 1.0f);
+				if (m_animationBlend < 1.0f)
+				{
+					m_animator.SetFloat("Blend", m_animationBlend + Time.deltaTime);
+				}
+				else
+				{
+					m_animator.SetFloat("Blend", 1.0f);
+				}
 			}
 
 			// if the target is to the right
@@ -115,13 +123,17 @@ public class WalkingEnemyMovement : MonoBehaviour
 		// if the enemy is moving, move towards the target location
 		else
 		{
-			if (m_animationBlend > 0.0f)
+			// switch to the walking animation
+			if (m_animator != null)
 			{
-				m_animator.SetFloat("Blend", m_animationBlend - Time.deltaTime);
-			}
-			else
-			{
-				m_animator.SetFloat("Blend", 0.0f);
+				if (m_animationBlend > 0.0f)
+				{
+					m_animator.SetFloat("Blend", m_animationBlend - Time.deltaTime);
+				}
+				else
+				{
+					m_animator.SetFloat("Blend", 0.0f);
+				}
 			}
 
 			// if the target is to the right, move the enemy right
