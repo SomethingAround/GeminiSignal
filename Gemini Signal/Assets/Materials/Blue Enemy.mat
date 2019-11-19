@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Blue Enemy
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: 4800000, guid: de92a41436b4b474a9f527dbfa8dc6ba, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,6 +19,38 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_271DDFD:
+        m_Texture: {fileID: 2800000, guid: 5fe49fb2564add84284aae53271267a9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_2FFD387F:
+        m_Texture: {fileID: 2800000, guid: 696cf9185e9f20d4ea28ed673a403794, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_C814A977:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_DCF5241D:
+        m_Texture: {fileID: 2800000, guid: 2e37fbad0eebe3b4bbd8cb43f224f914, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_DD52869D:
+        m_Texture: {fileID: 2800000, guid: 5fe49fb2564add84284aae53271267a9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_E4BC2E4E:
+        m_Texture: {fileID: 2800000, guid: 693d0babbc7d4c84c820036a30c093e6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_F590485F:
+        m_Texture: {fileID: 2800000, guid: 71c55e78377b90a4aaea983b8eb26d48, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_FF0E136F:
+        m_Texture: {fileID: 2800000, guid: 2d4ca88fa2f03ee439fc346dc5f62228, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -44,11 +76,24 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_16FB33DC: 0.5
+    - Vector1_343AA035: 0.5
+    - Vector1_35F222CC: 100
+    - Vector1_5CE9AAAC: 1
     - Vector1_69F944C6: 0.1
+    - Vector1_78D6BD63: 1
+    - Vector1_7F164693: 0.5
+    - Vector1_89719A3B: 1
+    - Vector1_9BA3B3FD: 1
+    - Vector1_A67E9A16: 1
+    - Vector1_C091CB9E: 5
+    - Vector1_CC143900: 10
+    - Vector1_E7139658: 50
+    - Vector1_F1BF2E2A: 0.05
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
-    - _Cloak_per: 0.5
+    - _Cloak_per: -10.03
     - _Cull: 2
     - _Cutoff: 0.5
     - _DstBlend: 0
@@ -65,7 +110,15 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_2DC5E4AD: {r: 0.972549, g: 0.1752331, b: 0, a: 0}
+    - Color_324C0F42: {r: 0, g: 0.054581374, b: 1, a: 0}
+    - Color_4CEFBDA0: {r: 1, g: 0, b: 0, a: 0}
+    - Color_76B014D: {r: 0.02429692, g: 0.16083407, b: 0.735849, a: 0}
+    - Color_7A6DE8B4: {r: 0.7075471, g: 0.063412204, b: 0.063412204, a: 0}
+    - Color_82B85519: {r: 0.033018887, g: 0.08298379, b: 1, a: 0}
     - Color_849851D9: {r: 0, g: 0.13757366, b: 1, a: 0}
+    - Color_84FA37B: {r: 0, g: 0.21960784, b: 6.964706, a: 0}
+    - Color_CD07B75: {r: 0, g: 3.783252, b: 3.858824, a: 0}
     - _Color: {r: 0, g: 0.40196466, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
