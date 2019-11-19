@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of walking enemies
  * Creation Date: 08/10/2019
- * Last Modified: 18/11/2019
+ * Last Modified: 19/11/2019
  */
 
 using System.Collections;
@@ -22,6 +22,7 @@ public class WalkingEnemyMovement : MonoBehaviour
 	bool m_turning = true;
 
 	Animator m_animator;
+	float m_animationBlend = 0.0f;
 
 	public float m_endXPosition = 10;
 	public float m_moveSpeed = 3;
@@ -39,7 +40,7 @@ public class WalkingEnemyMovement : MonoBehaviour
 		m_targetXPosition = m_endXPosition;
 
 		// store the enemy's animator
-		m_animator = gameObject.GetComponent<Animator>();
+		m_animator = gameObject.GetComponentInChildren<Animator>();
 
 		// store the amount the enemy will move in a Vector3
 		m_movement.x = m_moveSpeed;
@@ -50,17 +51,19 @@ public class WalkingEnemyMovement : MonoBehaviour
 	*/
 	void Update()
     {
+		m_animationBlend = m_animator.GetFloat("Blend");
+
 		// if the enemy is turning, rotate towards the target
 		if (m_turning)
 		{
-			//if (m_animator.GetFloat("Blend") < 1.0f)
-			//{
-			//	m_animator.SetFloat("Blend", m_animator.GetFloat("Blend") + Time.deltaTime);
-			//}
-			//else
-			//{
-			//	m_animator.SetFloat("Blend", 1.0f);
-			//}
+			if (m_animationBlend < 1.0f)
+			{
+				m_animator.SetFloat("Blend", m_animationBlend + Time.deltaTime);
+			}
+			else
+			{
+				m_animator.SetFloat("Blend", 1.0f);
+			}
 
 			// if the target is to the right
 			if (m_targetXPosition > gameObject.transform.position.x)
@@ -83,7 +86,6 @@ public class WalkingEnemyMovement : MonoBehaviour
 
 					// stop turning
 					m_turning = false;
-					m_animator.SetBool("Turning", m_turning);
 				}
 			}
 			// if the target is to the left
@@ -107,21 +109,20 @@ public class WalkingEnemyMovement : MonoBehaviour
 
 					// stop turning
 					m_turning = false;
-					m_animator.SetBool("Turning", m_turning);
 				}
 			}
 		}
 		// if the enemy is moving, move towards the target location
 		else
 		{
-			//if (m_animator.GetFloat("Blend") > 0.0f)
-			//{
-			//	m_animator.SetFloat("Blend", m_animator.GetFloat("Blend") - Time.deltaTime);
-			//}
-			//else
-			//{
-			//	m_animator.SetFloat("Blend", 0.0f);
-			//}
+			if (m_animationBlend > 0.0f)
+			{
+				m_animator.SetFloat("Blend", m_animationBlend - Time.deltaTime);
+			}
+			else
+			{
+				m_animator.SetFloat("Blend", 0.0f);
+			}
 
 			// if the target is to the right, move the enemy right
 			if (m_targetXPosition > gameObject.transform.position.x)
@@ -149,7 +150,6 @@ public class WalkingEnemyMovement : MonoBehaviour
 
 				// start turning
 				m_turning = true;
-				m_animator.SetBool("Turning", m_turning);
 			}
 		}
 	}
