@@ -5,10 +5,10 @@ using XboxCtrlrInput;
 
 /*
  * File Name: PlayerSwap.cs
- * Author: Connor Li, Michael Sweetman
+ * Author: Connor Li
  * Description: Manages the swapping of the player
  * Creation Date: 14/10/2019
- * Last Modified: 12/11/2019
+ * Last Modified: 20/11/2019
  */
 
 public class PlayerSwap : MonoBehaviour
@@ -25,13 +25,20 @@ public class PlayerSwap : MonoBehaviour
 
 	Material m_shader;
 
+	public GameObject m_enemyMaterialManager;
+	EnemyMatEdit m_enemyMaterialEditor;
+
 	/* 
 	 * Brief: gets the player's shader
 	 */
 	void Start()
     {
-		m_shader = gameObject.GetComponent<Renderer>().materials[1];  
-    }
+		m_shader = gameObject.GetComponent<Renderer>().materials[1];
+
+		// store the enemy material editor
+		m_enemyMaterialEditor = m_enemyMaterialManager.GetComponent<EnemyMatEdit>();
+		m_enemyMaterialEditor.EditEnemyAlpha(m_isPhased);
+	}
 
 	/* 
 	 * Brief: manage the swapping of the player
@@ -45,6 +52,9 @@ public class PlayerSwap : MonoBehaviour
 			m_isPhasing = true;
 			// swap the current phase state of the player
 			m_isPhased = !m_isPhased;
+
+			// edit the alpha of the enemy
+			m_enemyMaterialEditor.EditEnemyAlpha(m_isPhased);
 		}
 
 		// if the player is phasing, update the shader

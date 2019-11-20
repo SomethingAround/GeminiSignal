@@ -7,7 +7,7 @@ using UnityEngine;
  * Author: Steven Pham
  * Description: to display the time they have till they are forced to switch
  * Creation Date: 8/10/2019
- * Last Modified: 19/11/2019
+ * Last Modified: 20/11/2019
  */
 
 public class SwapBar : MonoBehaviour
@@ -17,6 +17,9 @@ public class SwapBar : MonoBehaviour
 	float m_phaseLevel = 50.0f;
     bool m_playerPhased = false;
 	Vector3 m_scale = Vector3.zero;
+
+	public GameObject m_enemyMaterialManager;
+	EnemyMatEdit m_enemyMaterialEditor;
 
 	public float m_rate = 25.0f;
 
@@ -28,6 +31,10 @@ public class SwapBar : MonoBehaviour
 		// store player's swap script and scale of the bar
 		m_playerSwap = GameObject.FindGameObjectWithTag("Swap").GetComponent<PlayerSwap>();
 		m_scale = gameObject.GetComponent<RectTransform>().localScale;
+
+		// store the enemy material editor
+		m_enemyMaterialEditor = m_enemyMaterialManager.GetComponent<EnemyMatEdit>();
+		m_enemyMaterialEditor.EditEnemyAlpha(m_playerSwap.m_isPhased);
 	}
 
 	/*
@@ -54,6 +61,9 @@ public class SwapBar : MonoBehaviour
         {
 			m_playerSwap.m_isPhasing = true;
 			m_playerSwap.m_isPhased = !m_playerSwap.m_isPhased;
+
+			// edit the alpha of the enemies
+			m_enemyMaterialEditor.EditEnemyAlpha(m_playerSwap.m_isPhased);
 		}
 
 		// determine the y scale of the bar using the phase level
