@@ -16,7 +16,6 @@ public class PlayerSwap : MonoBehaviour
 	public float m_timeTillPhased = 1.0f;
 	[HideInInspector]
 	public float m_phaseTimer = 0.0f;
-	float m_downPhase = 0.9f;
 
 	[HideInInspector]
 	public bool m_isPhased = false;
@@ -73,7 +72,7 @@ public class PlayerSwap : MonoBehaviour
 			else
 			{
 				// decrease the value of the shader
-				m_shader.SetFloat("_Cloak_per", m_downPhase - m_phaseTimer);
+				m_shader.SetFloat("_Cloak_per", 1.0f - m_phaseTimer);
 			}
 
 			// if the phase timer has run out, stop phasing
@@ -81,6 +80,8 @@ public class PlayerSwap : MonoBehaviour
 			{
 				// stop phasing
 				m_isPhasing = false;
+				// set value of shader to intended value
+				m_shader.SetFloat("_Cloak_per", (m_isPhased) ? 1 : 0);
 				// reset the timer
 				m_phaseTimer = 0.0f;
 			}
