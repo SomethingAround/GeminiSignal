@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of walking enemies
  * Creation Date: 08/10/2019
- * Last Modified: 19/11/2019
+ * Last Modified: 20/11/2019
  */
 
 using System.Collections;
@@ -27,7 +27,7 @@ public class WalkingEnemyMovement : MonoBehaviour
 	public float m_endXPosition = 10;
 	public float m_moveSpeed = 3;
 	public float m_rotationSpeed = 3;
-	public GameObject m_model;
+	public GameObject m_director;
 	public GameObject m_fieldOfView;
 
 	/*
@@ -77,13 +77,13 @@ public class WalkingEnemyMovement : MonoBehaviour
 			if (m_targetXPosition > gameObject.transform.position.x)
 			{
 				// rotate clockwise
-				m_model.transform.Rotate(gameObject.transform.up, -m_rotationSpeed);
+				m_director.transform.Rotate(gameObject.transform.up, -m_rotationSpeed);
 
 				// if the enemy has rotated so they are facing right, stop turning and show the field of view
-				if (m_model.transform.right.x > 1.0f - m_rotationThreshold)
+				if (m_director.transform.right.x > 1.0f - m_rotationThreshold)
 				{
 					// make the enemy face directly right
-					m_model.transform.right = Vector3.right;
+					m_director.transform.right = Vector3.right;
 
 					// activate the field of view
 					if (m_fieldOfView != null)
@@ -100,13 +100,13 @@ public class WalkingEnemyMovement : MonoBehaviour
 			else
 			{
 				// rotate anti-clockwise
-				m_model.transform.Rotate(gameObject.transform.up, m_rotationSpeed);
+				m_director.transform.Rotate(gameObject.transform.up, m_rotationSpeed);
 
 				// if the enemy has rotated so they are facing left, stop turning and show the field of view
-				if (m_model.transform.right.x < -1.0f + m_rotationThreshold)
+				if (m_director.transform.right.x < -1.0f + m_rotationThreshold)
 				{
 					// make the enemy face directly left
-					m_model.transform.right = Vector3.left;
+					m_director.transform.right = Vector3.left;
 
 					// activate the field of view
 					if (m_fieldOfView != null)

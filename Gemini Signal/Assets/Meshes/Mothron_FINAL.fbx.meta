@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: 592027f55f1cee044be4ff904f0f65ef
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Abd_1_JNT
+    100002: Abd_2_JNT
+    100004: Abd_3_JNT
+    100006: Abd_4_JNT
+    100008: Abd_5_JNT
+    100010: Antennae_L_JNT
+    100012: Antennae_R_JNT
+    100014: Arm_1_L_JNT
+    100016: Arm_1_R_JNT
+    100018: Arm_2_L_JNT
+    100020: Arm_2_R_JNT
+    100022: Arm_3_L_JNT
+    100024: Arm_3_R_JNT
+    100026: Body_JNT
+    100028: Head_JNT
+    100030: //RootNode
+    100032: Neck_JNT
+    100034: pasted__polySurface4
+    100036: pasted__pPlane1
+    100038: pasted__pPlane2
+    100040: pasted__Wing_1_L
+    100042: pasted__Wing_1_R
+    100044: pasted__Wing_2_L
+    100046: pasted__Wing_2_R
+    100048: polySurface1
+    100050: polySurface2
+    100052: Shell_L_JNT
+    100054: Shell_R_JNT
+    100056: Wing_1_L_JNT
+    100058: Wing_1_R_JNT
+    100060: Wing_2_L_JNT
+    100062: Wing_2_R_JNT
+    400000: Abd_1_JNT
+    400002: Abd_2_JNT
+    400004: Abd_3_JNT
+    400006: Abd_4_JNT
+    400008: Abd_5_JNT
+    400010: Antennae_L_JNT
+    400012: Antennae_R_JNT
+    400014: Arm_1_L_JNT
+    400016: Arm_1_R_JNT
+    400018: Arm_2_L_JNT
+    400020: Arm_2_R_JNT
+    400022: Arm_3_L_JNT
+    400024: Arm_3_R_JNT
+    400026: Body_JNT
+    400028: Head_JNT
+    400030: //RootNode
+    400032: Neck_JNT
+    400034: pasted__polySurface4
+    400036: pasted__pPlane1
+    400038: pasted__pPlane2
+    400040: pasted__Wing_1_L
+    400042: pasted__Wing_1_R
+    400044: pasted__Wing_2_L
+    400046: pasted__Wing_2_R
+    400048: polySurface1
+    400050: polySurface2
+    400052: Shell_L_JNT
+    400054: Shell_R_JNT
+    400056: Wing_1_L_JNT
+    400058: Wing_1_R_JNT
+    400060: Wing_2_L_JNT
+    400062: Wing_2_R_JNT
+    2100000: lambert5
+    2100002: pasted__lambert2
+    2300000: pasted__pPlane1
+    2300002: pasted__pPlane2
+    2300004: pasted__Wing_1_L
+    2300006: pasted__Wing_1_R
+    2300008: pasted__Wing_2_L
+    2300010: pasted__Wing_2_R
+    2300012: polySurface1
+    2300014: polySurface2
+    3300000: pasted__pPlane1
+    3300002: pasted__pPlane2
+    3300004: pasted__Wing_1_L
+    3300006: pasted__Wing_1_R
+    3300008: pasted__Wing_2_L
+    3300010: pasted__Wing_2_R
+    3300012: polySurface1
+    3300014: polySurface2
+    4300000: pasted__polySurface4
+    4300002: polySurface2
+    4300004: pasted__Wing_1_L
+    4300006: pasted__Wing_2_L
+    4300008: polySurface1
+    4300010: pasted__Wing_1_R
+    4300012: pasted__Wing_2_R
+    4300014: pasted__pPlane2
+    4300016: pasted__pPlane1
+    7400000: Fly
+    9500000: //RootNode
+    13700000: pasted__polySurface4
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Fly
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

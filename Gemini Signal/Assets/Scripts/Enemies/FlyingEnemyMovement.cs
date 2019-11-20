@@ -3,7 +3,7 @@
  * Author: Michael Sweetman
  * Description: manages the movement of flying enemies
  * Creation Date: 07/10/2019
- * Last Modified: 19/11/2019
+ * Last Modified: 20/11/2019
  */
 
 using System.Collections;
@@ -42,7 +42,7 @@ public class FlyingEnemyMovement : MonoBehaviour
 	public float m_moveSpeed = 3;
 	public float m_pitchRotationSpeed = 3;
 	public float m_yawRotationSpeed = 6;
-	public GameObject m_model;
+	public GameObject m_director;
 	public GameObject m_fieldOfView;
 	public List<Movement> m_movements;
 
@@ -103,13 +103,13 @@ public class FlyingEnemyMovement : MonoBehaviour
 				// if the enemy is currently rotating to face horizontally towards its target
 				case MoveStep.rotatingYaw:
 					// rotate the model's up vector so the right vector is facing the target direction
-					m_model.transform.Rotate(transform.up, ((m_targetPosition.x >= transform.position.x) ? -1 : 1) * m_yawRotationSpeed);
+					m_director.transform.Rotate(transform.up, ((m_targetPosition.x >= transform.position.x) ? -1 : 1) * m_yawRotationSpeed);
 
 					// if the enemy's model has rotated enough to reach its target direction
-					if (Vector3.Dot(m_model.transform.right, m_targetDirection) > m_rotationThreshold)
+					if (Vector3.Dot(m_director.transform.right, m_targetDirection) > m_rotationThreshold)
 					{
 						// reset the model and set the right vector to exactly face the target direction
-						m_model.transform.right = transform.right;
+						m_director.transform.right = transform.right;
 						transform.right = m_targetDirection;
 
 						// set the target direction to be facing the target position
