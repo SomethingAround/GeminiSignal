@@ -7,7 +7,7 @@ using UnityEngine;
  * Author: Steven Pham
  * Description: Has the enemy detect the player if they are in the opposite Dimension
  * Creation Date: 7/10/2019
- * Last Modified: 20/11/2019
+ * Last Modified: 25/11/2019
  */
 
 public class EnemyDetection : MonoBehaviour
@@ -31,7 +31,7 @@ public class EnemyDetection : MonoBehaviour
         //Finds the Player
         m_player = GameObject.FindGameObjectWithTag("Player");
 		// Finds the Player Swap script
-		m_playerSwap = GameObject.FindGameObjectWithTag("Swap").GetComponent<PlayerSwap>();
+		m_playerSwap = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerSwap>();
     }
 
 	/*
