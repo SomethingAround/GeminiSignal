@@ -39,6 +39,8 @@ public class PlayerJump : MonoBehaviour
 	Vector2 m_playerDimensions = Vector2.zero;
 
 	CameraMovement m_cameraMovement;
+
+	Animator m_animator;
 	
 	/* 
 	 * Brief: initialise variables for the player's jump
@@ -58,6 +60,8 @@ public class PlayerJump : MonoBehaviour
 		m_cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
 
 		m_maxHorizontalSpeed = gameObject.GetComponent<PlayerMovement>().m_maxSpeed;
+
+		m_animator = gameObject.GetComponent<Animator>();
 	}
 
     /*
@@ -143,6 +147,7 @@ public class PlayerJump : MonoBehaviour
 				m_rb2d.drag = m_airDrag;
 			}
 		}
+		m_animator.SetBool("Jump", m_inAir);
 		print(m_rb2d.velocity.x);
     }
 }

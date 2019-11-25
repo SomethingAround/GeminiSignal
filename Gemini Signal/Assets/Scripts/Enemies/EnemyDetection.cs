@@ -16,6 +16,8 @@ public class EnemyDetection : MonoBehaviour
     CameraMovement m_cameraMovement;
     GameObject m_player;
 	PlayerSwap m_playerSwap;
+	Animator m_animator;
+	ParticleSystem m_deathPartical;
 
 	bool m_killedPlayer = false;
 	float respawnTimer = 0.0f;
@@ -31,8 +33,13 @@ public class EnemyDetection : MonoBehaviour
         //Finds the Player
         m_player = GameObject.FindGameObjectWithTag("Player");
 		// Finds the Player Swap script
-		m_playerSwap = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerSwap>();
-    }
+		m_playerSwap = GameObject.FindGameObjectWithTag("Swap").GetComponent<PlayerSwap>();
+
+		m_animator = m_player.GetComponent<Animator>();
+
+		m_deathPartical = GameObject.FindGameObjectWithTag("Death Particle").GetComponent<ParticleSystem>();
+
+	}
 
 	/*
 	 * manages the timer that determines when the player respawns after being killed by an enemy
@@ -42,6 +49,13 @@ public class EnemyDetection : MonoBehaviour
 		// if the player has been killed
 		if (m_killedPlayer)
 		{
+			m_animator.SetBool("Death", true);
+
+			if (m_deathPartical.isStopped)
+			{
+				m_deathPartical.Play();
+			}
+			
 			// increase the timer
 			respawnTimer += Time.deltaTime;
 
@@ -51,6 +65,12 @@ public class EnemyDetection : MonoBehaviour
 				// return the player to its start position, with 0 velocity
 				m_player.transform.position = m_player.GetComponent<PlayerMovement>().m_startPosition;
 				m_player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+				m_animator.SetBool("Death", false);
+				if (m_deathPartical.isPlaying)
+				{
+					m_deathPartical.Stop();
+				}
 
 				// reset enemy detection
 				m_killedPlayer = false;
