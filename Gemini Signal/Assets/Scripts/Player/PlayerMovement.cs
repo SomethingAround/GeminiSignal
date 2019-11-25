@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
 	float m_yRayOffset = 0.05f;
 	float m_inputThreshold = 0.01f;
 	float m_landedAccelerationTimer = 0.0f;
+	float m_fadeSpeed = 1.0f;
 
 	[HideInInspector]
 	public bool m_landed = false;
@@ -53,6 +54,12 @@ public class PlayerMovement : MonoBehaviour
 
 	RaycastHit2D m_rayRH2D;
 	Vector2 m_playerDimensions = Vector2.zero;
+
+	Material m_shader;
+
+	PlayerSwap m_playerSwap;
+
+	EnemyDetection m_enemyDetection;
 
 	/* 
 	 * Brief: initialise variables for the player's horizontal movement
@@ -174,6 +181,12 @@ public class PlayerMovement : MonoBehaviour
 				m_rb2d.velocity = m_wallHit;
 			}
 		}
-			m_animator.SetFloat("Blend", Mathf.Round(m_rb2d.velocity.x * 1000f) / 1000f);
+		m_animator.SetFloat("X_Velocity", Mathf.Round(m_rb2d.velocity.x * 100f) / 100f);
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if(collision.gameObject.tag == "Enemy")
+			m_enemyDetection = collision.gameObject.GetComponent<EnemyDetection>();
 	}
 }
